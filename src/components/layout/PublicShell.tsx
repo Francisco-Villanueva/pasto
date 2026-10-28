@@ -4,6 +4,7 @@ import { ThemeToggle } from "../ThemeToggle";
 import { Logo } from "./Logo";
 import { CartNavLink } from "../store/CartNavLink";
 import { NavLink } from "./NavLink";
+import { BottomNav } from "./BottomNav";
 
 const BEFORE_CART = [
   { href: "/", label: "Inicio" },
@@ -18,7 +19,7 @@ const BEFORE_CART = [
 export function PublicShell({ children, bleed = false }: { children: ReactNode; bleed?: boolean }) {
   return (
     <>
-      <header className="v-header">
+      <header className={bleed ? "v-header v-header--home" : "v-header"}>
         <div className="wrap row-between">
           <Logo />
           <nav className="pasto-nav" aria-label="Principal">
@@ -55,6 +56,7 @@ export function PublicShell({ children, bleed = false }: { children: ReactNode; 
           </nav>
         </div>
       </footer>
+      <BottomNav />
     </>
   );
 }

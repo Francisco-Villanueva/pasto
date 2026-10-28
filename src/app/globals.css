@@ -225,3 +225,23 @@ main.wrap,
     position: static;
   }
 }
+
+/* Inicio en celular: solo el logo, sin barra, sobre la imagen de portada */
+@media (max-width: 720px) {
+  .v-header--home {
+    position: absolute;
+    inset: 0 0 auto 0;
+    background: transparent;
+    border-bottom: 0;
+    padding-block: var(--space-6);
+  }
+  .v-header--home .pasto-nav {
+    display: none;
+  }
+  .v-header--home .logo-light {
+    display: none !important;
+  }
+  .v-header--home .logo-dark {
+    display: block !important;
+  }
+}
