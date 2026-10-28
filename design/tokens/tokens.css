@@ -1,0 +1,80 @@
+/* PASTO — tokens.css
+   Generado a partir de tokens.json. No lo edites a mano: cambiá tokens.json y volvé a generarlo.
+   Temas: Arena (positivo, por defecto) y Carbón (negativo).
+   - Automático: sigue prefers-color-scheme.
+   - Manual: <html data-theme="arena"> o <html data-theme="carbon">. */
+
+@font-face { font-family: "Gabriel Weiss"; src: url("../fonts/GabrielWeiss-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Hanken Grotesk"; src: url("../fonts/HankenGrotesk-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+:root {
+  --carbon: #272b29;
+  --verde: #2c5e4a;
+  --terracota: #bc7139;
+  --arena: #d6d2c8;
+  --cafe: #755741;
+  --cobre: #996439;
+  --bosque-900: #323f3a;
+  --bosque-800: #344c43;
+  --surface-brand: var(--verde);
+  --accent: var(--terracota);
+  --on-brand: var(--arena);
+  --on-accent: var(--carbon);
+  --surface: var(--arena);
+  --surface-raised: #e9e6df;
+  --ink: var(--carbon);
+  --ink-muted: var(--bosque-800);
+  --border: #c4bfb3;
+  --border-strong: var(--bosque-800);
+  --focus-ring: var(--verde);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+  --font-display: "Gabriel Weiss", "Hanken Grotesk", system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk", system-ui, sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="arena"]) {
+    --surface: var(--carbon);
+    --surface-raised: var(--bosque-900);
+    --ink: var(--arena);
+    --ink-muted: #ada99f;
+    --border: var(--bosque-800);
+    --border-strong: #8e8a82;
+    --focus-ring: var(--arena);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="carbon"] {
+  --surface: var(--carbon);
+  --surface-raised: var(--bosque-900);
+  --ink: var(--arena);
+  --ink-muted: #ada99f;
+  --border: var(--bosque-800);
+  --border-strong: #8e8a82;
+  --focus-ring: var(--arena);
+  color-scheme: dark;
+}
+
+/* Estilos de texto (clases utilitarias opcionales) */
+.t-display-xl{font-family:var(--font-display);font-size:72px;line-height:76px;font-weight:400;letter-spacing:0;}
+.t-display-lg{font-family:var(--font-display);font-size:48px;line-height:52px;font-weight:400;letter-spacing:0;}
+.t-display-md{font-family:var(--font-display);font-size:32px;line-height:38px;font-weight:400;letter-spacing:0;}
+.t-label{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;}
+.t-heading{font-family:var(--font-sans);font-size:24px;line-height:30px;font-weight:700;letter-spacing:normal;}
+.t-title{font-family:var(--font-sans);font-size:18px;line-height:24px;font-weight:700;letter-spacing:normal;}
+.t-body{font-family:var(--font-sans);font-size:16px;line-height:24px;font-weight:500;letter-spacing:normal;}
+.t-body-sm{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:500;letter-spacing:normal;}
+.t-caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:500;letter-spacing:normal;}

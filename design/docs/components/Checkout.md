@@ -1,0 +1,11 @@
+Checkout de `/checkout` y confirmación de `/pedido/:token`: del carrito al mensaje de WhatsApp.
+
+- Implementación: `app/src/components/store/CheckoutForm.tsx`, `AddressSearch.tsx`, `TurnstileField.tsx` y `OrderSent.tsx`. Clases: `pasto-split`, `pasto-panel`, `pasto-option`, `pasto-switch`, `pasto-suggest`.
+- Estructura: a la izquierda las secciones CÓMO LO RECIBÍS, DÍA Y HORARIO, TUS DATOS y PAGO; a la derecha un panel fijo con el pedido, el envío, el total y el único botón `primary` ("Enviar pedido por WhatsApp"). Debajo, un `details` con el mensaje que se va a enviar.
+- Envío o retiro con `Segmented`. En envío, `AddressSearch` (combobox con sugerencias, teclado completo) precompleta calle, número y barrio y cotiza el costo; los campos manuales siempre quedan disponibles. El texto dice que el costo depende de la distancia, no que es fijo.
+- Costo de envío en el resumen: "Calculando…", el importe del tramo, o "A confirmar" si no se pudo ubicar la dirección (se confirma por WhatsApp y no bloquea el pedido). Fuera del radio máximo: `Notice` `brand` con `role="alert"`, ofrece elegir retiro y deshabilita el botón.
+- Días con `ChoiceOption` ("Pedí hasta el lunes a las 12:00") y franja con `SelectField`. Solo se ofrecen los días abiertos y antes del corte; si no hay ninguno, `EmptyState` que explica el horario de cierre.
+- Datos: nombre, WhatsApp (se normaliza a +549…; el texto avisa que también se usa para el seguimiento posventa), email opcional, interruptor opcional de novedades y aceptación obligatoria de Términos y Privacidad. Los errores van junto al campo con el prefijo "Revisá:".
+- Captcha: `TurnstileField` (Cloudflare Turnstile, modo `interaction-only`: solo se ve si hay que hacer algo).
+- Confirmación (`OrderSent`): número de pedido grande (`Stat`), pasos, "Abrir WhatsApp" como único `primary` y "Copiar el mensaje". Desde el checkout abre WhatsApp solo; el botón queda de respaldo y volver atrás no lo reabre. Avisa que el pedido todavía no está confirmado ni cobrado. La página no se indexa y solo se abre con el enlace privado.
+- Textos legales (`/terminos`, `/privacidad`) usan `LegalPage` con un aviso de texto provisorio hasta que PASTO entregue los definitivos.

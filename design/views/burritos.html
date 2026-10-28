@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Burritos · PASTO</title>
+<style>/* PASTO — vistas de la app. Tokens según tokens.json del sistema. */
+@font-face{font-family:"Gabriel Weiss";src:url("../fonts/GabrielWeiss-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url("../fonts/HankenGrotesk-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
+
+:root{
+  --carbon:#272b29;--verde:#2c5e4a;--terracota:#bc7139;--arena:#d6d2c8;
+  --cafe:#755741;--cobre:#996439;--bosque-900:#323f3a;--bosque-800:#344c43;
+  --surface:#d6d2c8;--surface-raised:#e9e6df;--surface-brand:#2c5e4a;
+  --ink:#272b29;--ink-muted:#344c43;--accent:#bc7139;
+  --on-brand:#d6d2c8;--on-accent:#272b29;
+  --border:#c4bfb3;--border-strong:#344c43;--focus-ring:#2c5e4a;
+  --logo-light:block;--logo-dark:none;
+  --font-display:"Gabriel Weiss","Hanken Grotesk",system-ui,sans-serif;
+  --font-sans:"Hanken Grotesk",system-ui,sans-serif;
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--space-12:48px;--space-16:64px;
+  --radius-sm:8px;--radius-md:16px;--radius-lg:28px;--radius-pill:999px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --surface:#272b29;--surface-raised:#323f3a;--ink:#d6d2c8;--ink-muted:#ada99f;
+  --border:#344c43;--border-strong:#8e8a82;--focus-ring:#d6d2c8;
+  --logo-light:none;--logo-dark:block;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --surface:#272b29;--surface-raised:#323f3a;--ink:#d6d2c8;--ink-muted:#ada99f;
+  --border:#344c43;--border-strong:#8e8a82;--focus-ring:#d6d2c8;
+  --logo-light:none;--logo-dark:block;color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--surface);color:var(--ink);font-family:var(--font-sans);font-size:16px;line-height:24px;font-weight:500;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+img{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+h1,h2,h3,p{margin:0}
+.display-xl{font-family:var(--font-display);font-weight:400;font-size:clamp(44px,8vw,72px);line-height:1.05;letter-spacing:0;text-wrap:balance}
+.display-lg{font-family:var(--font-display);font-weight:400;font-size:clamp(36px,6vw,48px);line-height:1.08;letter-spacing:0;text-wrap:balance}
+.display-md{font-family:var(--font-display);font-weight:400;font-size:32px;line-height:38px;letter-spacing:0;text-wrap:balance}
+.heading{font-size:24px;line-height:30px;font-weight:700;text-wrap:balance}
+.title{font-size:18px;line-height:24px;font-weight:700}
+.body-sm{font-size:14px;line-height:20px}
+.caption{font-size:12px;line-height:16px}
+.label{font-size:12px;line-height:16px;font-weight:700;letter-spacing:.3em;text-transform:uppercase}
+.muted{color:var(--ink-muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---- estructura ---- */
+.wrap{max-width:1120px;margin:0 auto;width:100%}
+.stack{display:flex;flex-direction:column;gap:var(--space-4)}
+.stack-lg{display:flex;flex-direction:column;gap:var(--space-8)}
+.row{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap}
+.grid{display:grid;gap:var(--space-8)}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.split{display:grid;gap:var(--space-8);grid-template-columns:minmax(0,1fr) 340px;align-items:start}
+@media (max-width:860px){.split{grid-template-columns:minmax(0,1fr)}}
+.page{padding-block:var(--space-8) var(--space-16);display:flex;flex-direction:column;gap:var(--space-8)}
+.page-head{display:flex;flex-direction:column;gap:var(--space-2)}
+
+/* ---- header público ---- */
+.v-header{padding-block:var(--space-4);border-bottom:1.5px solid var(--border)}
+.v-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap}
+.logo{height:36px;width:auto;max-width:none}
+.logo-light{display:var(--logo-light)}.logo-dark{display:var(--logo-dark)}
+.v-nav{display:flex;gap:var(--space-2);flex-wrap:wrap;align-items:center}
+.v-nav a{padding:var(--space-2) var(--space-4);border-radius:var(--radius-pill);text-decoration:none;font-weight:700;font-size:14px}
+.v-nav a:hover{background:var(--surface-raised)}
+.v-nav a[aria-current="page"]{background:var(--surface-brand);color:var(--on-brand)}
+.theme-btn{border:2px solid var(--border-strong);background:transparent;color:var(--ink);border-radius:var(--radius-pill);padding:6px 14px;font:700 12px/16px var(--font-sans);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.cart-pill{display:inline-flex;gap:var(--space-2);align-items:center}
+.v-footer{background:var(--surface-brand);color:var(--on-brand);border-radius:var(--radius-lg);padding:var(--space-8);margin-bottom:var(--space-8)}
+
+/* ---- bloques de marca ---- */
+.hero{background:var(--surface-brand);color:var(--on-brand);border-radius:var(--radius-lg);padding:clamp(24px,5vw,64px);display:flex;flex-direction:column;gap:var(--space-6)}
+.hero p{max-width:52ch}
+.wave{display:block;width:120px;height:14px}
+.block-brand{background:var(--surface-brand);color:var(--on-brand);border-radius:var(--radius-lg);padding:var(--space-8)}
+.panel{background:var(--surface-raised);border-radius:var(--radius-md);padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4)}
+.panel--sticky{position:sticky;top:var(--space-4)}
+.plate{aspect-ratio:4/3;background:var(--surface-brand);color:var(--on-brand);display:flex;align-items:flex-end;padding:var(--space-3);font-size:12px;line-height:16px;font-weight:700;letter-spacing:.3em;text-transform:uppercase}
+.plate--cobre{background:var(--cafe)}
+hr{border:0;border-top:1.5px solid var(--border);width:100%;margin:0}
+
+/* ---- controles ---- */
+.seg{display:inline-flex;background:var(--surface-raised);border-radius:var(--radius-pill);padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;color:var(--ink);font:700 14px/20px var(--font-sans);padding:var(--space-2) var(--space-6);border-radius:var(--radius-pill);cursor:pointer}
+.seg button[aria-pressed="true"],.seg button[aria-checked="true"]{background:var(--surface-brand);color:var(--on-brand)}
+.counter{display:inline-flex;align-items:center;gap:var(--space-3)}
+.counter button{width:36px;height:36px;border-radius:var(--radius-pill);border:2px solid var(--border-strong);background:transparent;color:var(--ink);font:700 18px/1 var(--font-sans);cursor:pointer}
+.counter button:hover:not(:disabled){background:var(--surface-brand);color:var(--on-brand);border-color:var(--surface-brand)}
+.counter button:disabled{opacity:.4;cursor:not-allowed}
+.counter output{min-width:24px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:14px;font-weight:700}
+.input,.select,.textarea{width:100%;font:500 16px/24px var(--font-sans);color:var(--ink);background:var(--surface-raised);border:2px solid var(--border-strong);border-radius:var(--radius-sm);padding:10px 14px}
+.textarea{min-height:88px;resize:vertical}
+.hint{font-size:12px;line-height:16px;color:var(--ink-muted)}
+.progress{height:10px;border-radius:var(--radius-pill);background:var(--border);overflow:hidden}
+.progress>i{display:block;height:100%;background:var(--surface-brand);border-radius:var(--radius-pill);transition:width .2s ease}
+.progress.is-full>i{background:var(--surface-brand)}
+.option{display:flex;gap:var(--space-3);align-items:flex-start;padding:var(--space-4);border:2px solid var(--border-strong);border-radius:var(--radius-md);cursor:pointer;background:transparent}
+.option input{margin-top:4px;accent-color:var(--verde)}
+.option:has(input:checked){background:var(--surface-raised);border-color:var(--surface-brand);box-shadow:inset 0 0 0 2px var(--surface-brand)}
+.option[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+.switch{display:inline-flex;align-items:center;gap:var(--space-3);font-weight:700;font-size:14px}
+.switch input{appearance:none;width:44px;height:26px;border-radius:var(--radius-pill);background:var(--border-strong);position:relative;cursor:pointer;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--surface);transition:transform .15s ease}
+.switch input:checked{background:var(--surface-brand)}
+.switch input:checked::after{transform:translateX(18px);background:var(--on-brand)}
+.notice{display:flex;gap:var(--space-3);padding:var(--space-4);border-radius:var(--radius-md);background:var(--surface-raised);box-shadow:inset 0 0 0 1.5px var(--border-strong);font-size:14px;line-height:20px}
+.notice--brand{background:var(--surface-brand);color:var(--on-brand);box-shadow:none}
+.notice strong{font-weight:700}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--ink-muted);flex:none}
+.dot--terracota{background:var(--terracota)}.dot--cobre{background:var(--cobre)}.dot--verde{background:var(--verde)}.dot--carbon{background:var(--ink)}
+.dot--hollow{background:transparent;box-shadow:inset 0 0 0 2px var(--ink-muted)}
+.stat{display:flex;flex-direction:column;gap:var(--space-1)}
+.stat b{font-family:var(--font-display);font-weight:400;font-size:40px;line-height:44px}
+
+/* ---- modal / toast ---- */
+.modal-back{position:fixed;inset:0;background:rgba(39,43,41,.62);display:flex;align-items:center;justify-content:center;padding:var(--space-4);z-index:20}
+.modal{background:var(--surface);color:var(--ink);border-radius:var(--radius-lg);padding:var(--space-8);max-width:460px;width:100%;display:flex;flex-direction:column;gap:var(--space-4)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:max(24px,env(safe-area-inset-bottom,0px));background:var(--surface-brand);color:var(--on-brand);border-radius:var(--radius-pill);padding:var(--space-3) var(--space-6);font-weight:700;font-size:14px;z-index:30}
+
+/* ---- ítems de lista ---- */
+.meal{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:var(--space-4);align-items:center;padding:var(--space-4);background:var(--surface-raised);border-radius:var(--radius-md)}
+.meal .plate{aspect-ratio:1;border-radius:var(--radius-sm);padding:6px;font-size:10px;letter-spacing:.2em}
+@media (max-width:520px){.meal{grid-template-columns:72px minmax(0,1fr)}.meal .counter{grid-column:1 / -1;justify-self:end}}
+.macros{display:flex;gap:var(--space-3);flex-wrap:wrap;font-size:12px;line-height:16px;color:var(--ink-muted)}
+.macros b{color:var(--ink)}
+.line{display:flex;justify-content:space-between;gap:var(--space-4);align-items:baseline}
+.line--total{font-size:18px;font-weight:700}
+.cart-item{display:flex;flex-direction:column;gap:var(--space-3);padding:var(--space-6);background:var(--surface-raised);border-radius:var(--radius-md)}
+.flavors{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px;font-size:14px;line-height:20px;color:var(--ink-muted)}
+
+/* ---- backoffice ---- */
+.admin{display:grid;grid-template-columns:232px minmax(0,1fr);gap:var(--space-8);min-height:100vh}
+@media (max-width:900px){.admin{grid-template-columns:minmax(0,1fr);gap:var(--space-4)}}
+.side{padding-block:var(--space-6);display:flex;flex-direction:column;gap:var(--space-6);position:sticky;top:0;align-self:start}
+@media (max-width:900px){.side{position:static}}
+.side-nav{display:flex;flex-direction:column;gap:2px}
+@media (max-width:900px){.side-nav{flex-direction:row;flex-wrap:wrap;gap:var(--space-2)}}
+.side-nav a{padding:10px var(--space-4);border-radius:var(--radius-pill);text-decoration:none;font-weight:700;font-size:14px;display:flex;justify-content:space-between;gap:var(--space-2)}
+.side-nav a:hover{background:var(--surface-raised)}
+.side-nav a[aria-current="page"]{background:var(--surface-brand);color:var(--on-brand)}
+.side-nav a[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.table-wrap{overflow-x:auto;border-radius:var(--radius-md);background:var(--surface-raised)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px;line-height:20px}
+th{text-align:left;font-size:12px;line-height:16px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:var(--space-3) var(--space-4);border-bottom:1.5px solid var(--border-strong);color:var(--ink-muted);white-space:nowrap}
+td{padding:var(--space-3) var(--space-4);border-bottom:1.5px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+.task{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-4);align-items:center;padding:var(--space-4) var(--space-6);background:var(--surface-raised);border-radius:var(--radius-md)}
+@media (max-width:640px){.task{grid-template-columns:minmax(0,1fr)}}
+.bar-row{display:grid;grid-template-columns:150px minmax(0,1fr) 40px;gap:var(--space-3);align-items:center;font-size:14px}
+.bar{height:10px;border-radius:var(--radius-pill);background:var(--border);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--surface-brand);border-radius:var(--radius-pill)}
+.slots{display:flex;gap:var(--space-2);flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---- índice ---- */
+.index-link{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-6);background:var(--surface-raised);border-radius:var(--radius-md);text-decoration:none}
+.index-link:hover{background:var(--surface-brand);color:var(--on-brand)}
+.index-link:hover .muted{color:var(--on-brand)}
+
+/* ---- componentes base del sistema (components/bundle.css) ---- */
+
+/* PASTO — componentes base. Valores desde tokens.css. */
+.pasto-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);padding:var(--space-3) var(--space-6);border-radius:var(--radius-pill);border:2px solid transparent;font-family:var(--font-sans);font-size:16px;line-height:20px;font-weight:700;cursor:pointer;text-decoration:none;transition:background-color .15s ease,border-color .15s ease}
+.pasto-btn:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.pasto-btn--primary{background:var(--verde);color:var(--on-brand)}
+.pasto-btn--primary:hover{background:var(--bosque-800)}
+.pasto-btn--secondary{background:transparent;color:var(--ink);border-color:var(--border-strong)}
+.pasto-btn--secondary:hover{background:var(--surface-raised)}
+.pasto-btn--ghost{background:transparent;color:var(--ink);padding-left:var(--space-4);padding-right:var(--space-4)}
+.pasto-btn--ghost:hover{background:var(--surface-raised)}
+.pasto-btn:disabled,.pasto-btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+.pasto-btn--sm{padding:var(--space-2) var(--space-4);font-size:14px}
+
+.pasto-tag{display:inline-flex;align-items:center;gap:var(--space-1);padding:4px var(--space-3);border-radius:var(--radius-pill);font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.pasto-tag--brand{background:var(--verde);color:var(--on-brand)}
+.pasto-tag--neutral{background:var(--surface-raised);color:var(--ink);box-shadow:inset 0 0 0 1px var(--border)}
+.pasto-tag--outline{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--border-strong)}
+
+.pasto-card{display:flex;flex-direction:column;background:var(--surface-raised);color:var(--ink);border-radius:var(--radius-md);overflow:hidden;font-family:var(--font-sans)}
+.pasto-card__media{aspect-ratio:4/3;background:var(--verde);object-fit:cover;width:100%;display:block}
+.pasto-card__body{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-6)}
+.pasto-card__title{margin:0;font-size:18px;line-height:24px;font-weight:700}
+.pasto-card__text{margin:0;font-size:14px;line-height:20px;font-weight:500;color:var(--ink-muted)}
+.pasto-card__footer{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);margin-top:var(--space-2)}
+.pasto-card--brand{background:var(--surface-brand);color:var(--on-brand)}
+.pasto-card--brand .pasto-card__text{color:var(--on-brand)}
+</style></head>
+<body>
+<header class="v-header"><div class="wrap">
+  <a href="landing.html" aria-label="PASTO, inicio"><img class="logo logo-light" src="../assets/logos/pasto-logo-verde.png" alt="PASTO"><img class="logo logo-dark" src="../assets/logos/pasto-logo-arena.png" alt="PASTO"></a>
+  <nav class="v-nav" aria-label="Principal"><a href="landing.html">Inicio</a><a href="meal-prep.html">Meal prep</a><a href="burritos.html" aria-current="page">Burritos</a><a href="cart.html">Carrito</a><a href="mi-cuenta.html">Mi cuenta</a><button id="theme-btn" class="theme-btn" type="button">Tema</button></nav>
+</div></header>
+<main class="wrap page">
+<div class="page-head"><span class="label">BURRITOS</span><h1 class="display-lg">Armá tu pack de burritos</h1><svg class="wave" style="width:120px" viewBox="0 0 100 14" fill="none" aria-hidden="true"><path d="M3 9C9 1 15 1 21 9S33 17 39 9 51 1 57 9s12 8 18 0 12-8 18 0" stroke="var(--accent)" stroke-width="4.5" stroke-linecap="round"/></svg>
+<p class="muted" style="max-width:60ch">Packs de 6 o 12 unidades, con los sabores que prefieras.</p></div>
+<div class="split">
+  <div class="stack-lg">
+    <div class="row" style="gap:24px">
+      <div class="stack" style="gap:8px"><span class="label">PLAN</span><div class="seg" id="plans" role="group" aria-label="Plan"></div></div>
+      <div class="stack" style="gap:8px"><span class="label">TAMAÑO DEL PACK</span><div class="seg" id="sizes" role="group" aria-label="Tamaño del pack"></div></div>
+    </div>
+    <div class="stack" id="meals"></div>
+  </div>
+  <aside class="panel panel--sticky" aria-label="Resumen del pack">
+    <span class="label">TU PACK</span>
+    <div class="row-between"><span class="display-md num" id="sum">0</span><span class="title num" id="price"></span></div>
+    <div class="progress" role="progressbar" aria-label="Avance del pack"><i id="bar" style="width:0%"></i></div>
+    <p class="body-sm muted" id="msg" aria-live="polite"></p>
+    <hr>
+    <span class="label">TOTAL DE MACROS</span>
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px" id="macros"></div>
+    <button class="pasto-btn pasto-btn--primary" id="add" type="button" disabled>Agregar al carrito</button>
+    <p class="caption muted">Cualquier combinación vale: 10 unidades del mismo plato también es un pack válido.</p>
+  </aside>
+</div></main>
+<div class="wrap"><footer class="v-footer"><div class="stack">
+  <span class="label">PASTO</span>
+  <p class="body-sm">Viandas, burritos y complementos hechos en cocina propia. Pedidos con entrega los miércoles y, si está habilitado, los viernes.</p>
+  <p class="caption">Vistas de ejemplo del sistema de diseño. Precios y datos son de muestra.</p>
+</div></footer></div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  try{var t=localStorage.getItem('pasto-theme');if(t)root.setAttribute('data-theme',t)}catch(e){}
+  var b=document.getElementById('theme-btn');
+  if(b)b.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var dark=cur?cur==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var n=dark?'light':'dark';root.setAttribute('data-theme',n);
+    try{localStorage.setItem('pasto-theme',n)}catch(e){}
+  });
+  window.toast=function(msg){
+    var el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent=msg;
+    document.body.appendChild(el);setTimeout(function(){el.remove()},2400);
+  };
+  window.money=function(n){return '$'+n.toLocaleString('es-AR')};
+})();
+</script>
+<script>window.BUILDER={plans:["BURRITO"],sizes:[6,12]};</script>
+<script>
+
+var PRICES={ESENCIAL:{5:21500,10:40000,20:76000},PROTEICO:{5:25000,10:47000,20:90000},BURRITO:{6:18000,12:34000}};
+var MEALS={
+ ESENCIAL:[
+  {id:'m1',n:'Milanesa de pollo napolitana',cal:520,p:38,c:42,f:20},
+  {id:'m2',n:'Pollo al limón con arroz',cal:480,p:36,c:48,f:14},
+  {id:'m3',n:'Guiso de lentejas',cal:430,p:24,c:58,f:10},
+  {id:'m4',n:'Fideos con boloñesa',cal:560,p:30,c:68,f:18}],
+ PROTEICO:[
+  {id:'p1',n:'Bife con puré de calabaza',cal:610,p:52,c:38,f:26},
+  {id:'p2',n:'Pollo grillado con quinoa',cal:540,p:50,c:40,f:16},
+  {id:'p3',n:'Albóndigas con arroz integral',cal:580,p:46,c:46,f:20},
+  {id:'p4',n:'Salmón con vegetales',cal:590,p:44,c:30,f:30}],
+ BURRITO:[
+  {id:'b1',n:'Burrito de carne y cheddar',cal:620,p:34,c:62,f:24},
+  {id:'b2',n:'Burrito de pollo y vegetales',cal:560,p:36,c:58,f:18},
+  {id:'b3',n:'Burrito de lentejas y queso',cal:520,p:22,c:70,f:16}]
+};
+
+(function(){
+  var cfg=window.BUILDER; var state={plan:cfg.plans[0],size:cfg.sizes[0],counts:{}};
+  var list=document.getElementById('meals'),sum=document.getElementById('sum'),bar=document.getElementById('bar'),
+      btn=document.getElementById('add'),price=document.getElementById('price'),msg=document.getElementById('msg'),
+      mac=document.getElementById('macros'),sizeSeg=document.getElementById('sizes'),planSeg=document.getElementById('plans');
+  function total(){var s=0;for(var k in state.counts)s+=state.counts[k];return s}
+  function render(){
+    var meals=MEALS[state.plan];var t=total();
+    list.innerHTML='';
+    meals.forEach(function(m){
+      var q=state.counts[m.id]||0;
+      var el=document.createElement('div');el.className='meal';
+      el.innerHTML='<div class="plate">'+m.n.split(' ')[0]+'</div><div class="stack" style="gap:4px"><div class="title">'+m.n+'</div><div class="macros"><span><b>'+m.cal+'</b> kcal</span><span><b>'+m.p+'</b> g prot.</span><span><b>'+m.c+'</b> g carb.</span><span><b>'+m.f+'</b> g grasa</span></div></div>'+
+      '<div class="counter"><button type="button" aria-label="Quitar uno de '+m.n+'" '+(q===0?'disabled':'')+'>−</button><output aria-live="polite">'+q+'</output><button type="button" aria-label="Sumar uno de '+m.n+'" '+(t>=state.size?'disabled':'')+'>+</button></div>';
+      var bs=el.querySelectorAll('button');
+      bs[0].onclick=function(){state.counts[m.id]=q-1;render()};
+      bs[1].onclick=function(){state.counts[m.id]=q+1;render()};
+      list.appendChild(el);
+    });
+    sum.textContent=t+' de '+state.size;
+    bar.style.width=Math.min(100,t/state.size*100)+'%';
+    var full=t===state.size;
+    btn.disabled=!full;
+    msg.textContent=full?'Pack completo. Podés agregarlo al carrito.':'Te faltan '+(state.size-t)+' para completar el pack.';
+    var tot={cal:0,p:0,c:0,f:0};
+    meals.forEach(function(m){var q=state.counts[m.id]||0;tot.cal+=m.cal*q;tot.p+=m.p*q;tot.c+=m.c*q;tot.f+=m.f*q});
+    mac.innerHTML='<div class="stat"><span class="caption muted">Calorías</span><b>'+tot.cal+'</b></div><div class="stat"><span class="caption muted">Proteína g</span><b>'+tot.p+'</b></div><div class="stat"><span class="caption muted">Carbo g</span><b>'+tot.c+'</b></div><div class="stat"><span class="caption muted">Grasas g</span><b>'+tot.f+'</b></div>';
+    price.textContent=money(PRICES[state.plan][state.size]);
+  }
+  function seg(el,vals,key,fmt){
+    el.innerHTML='';
+    vals.forEach(function(v){
+      var b=document.createElement('button');b.type='button';b.textContent=fmt(v);b.setAttribute('aria-pressed',String(state[key]===v));
+      b.onclick=function(){state[key]=v;state.counts={};build();render()};
+      el.appendChild(b);
+    });
+  }
+  function build(){
+    if(planSeg)seg(planSeg,cfg.plans,'plan',function(v){return v==='ESENCIAL'?'Esencial':'Proteico'});
+    seg(sizeSeg,cfg.sizes,'size',function(v){return v+' unidades'});
+  }
+  btn.onclick=function(){toast('Pack agregado al carrito (ejemplo)');state.counts={};render()};
+  build();render();
+})();
+</script>
+</body></html>

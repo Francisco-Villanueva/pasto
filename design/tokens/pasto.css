@@ -1,0 +1,3 @@
+/* Un solo import para toda la app: tokens + componentes base. */
+@import "./tokens.css";
+@import "../components/bundle.css";
