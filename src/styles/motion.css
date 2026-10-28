@@ -1,0 +1,197 @@
+/* Movimiento de la app. Dos ideas: al abrir una página el contenido entra escalonado (una sola
+   secuencia por pantalla), y todo lo que responde a un gesto (abrir, sumar, confirmar) se mueve
+   con la misma curva. Sin rebotes ni sombras. Todo queda apagado con prefers-reduced-motion. */
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.64, 0, 0.78, 0);
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+  --dur-slow: 520ms;
+}
+
+/* ---- Transiciones de estado (siempre disponibles; reduced-motion las corta en globals.css) ---- */
+.pasto-seg button,
+.pasto-counter button,
+.pasto-nav a,
+.pasto-sidenav a,
+.pasto-option,
+.pasto-meal,
+.pasto-input,
+.pasto-select,
+.pasto-textarea,
+.pasto-suggest__item,
+.theme-btn {
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.pasto-btn {
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.pasto-btn:active:not(:disabled):not([aria-disabled="true"]),
+.pasto-seg button:active,
+.pasto-counter button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.pasto-progress > i {
+  transition: width var(--dur-slow) var(--ease-out);
+}
+.pasto-switch input,
+.pasto-switch input::after {
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+/* El plato con unidades elegidas se distingue sin ruido extra. */
+.pasto-meal.is-selected {
+  box-shadow: inset 0 0 0 2px var(--surface-brand);
+}
+
+/* ---- Modal: aparece y se va con fundido y un pequeño desplazamiento ---- */
+.pasto-modal {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out),
+    overlay var(--dur-base) allow-discrete,
+    display var(--dur-base) allow-discrete;
+}
+.pasto-modal[open] {
+  opacity: 1;
+  transform: none;
+}
+.pasto-modal::backdrop {
+  opacity: 0;
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    overlay var(--dur-base) allow-discrete,
+    display var(--dur-base) allow-discrete;
+}
+.pasto-modal[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  .pasto-modal[open] {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  .pasto-modal[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* ---- Toast: sube al entrar y baja al salir ---- */
+.pasto-toast {
+  animation: pasto-toast-in var(--dur-base) var(--ease-out) backwards;
+}
+.pasto-toast.is-leaving {
+  animation: pasto-toast-out var(--dur-base) var(--ease-in) forwards;
+}
+@keyframes pasto-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes pasto-toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ---- Entradas ---- */
+@keyframes pasto-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes pasto-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes pasto-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes pasto-tick {
+  from {
+    opacity: 0.3;
+    transform: translateY(5px);
+  }
+}
+
+/* Lo que aparece por una acción (aviso, dato nuevo, sugerencias) entra con un fundido corto. */
+.pasto-notice,
+.pasto-empty {
+  animation: pasto-rise var(--dur-base) var(--ease-out) backwards;
+}
+.pasto-suggest:not([hidden]) {
+  animation: pasto-rise var(--dur-fast) var(--ease-out) backwards;
+}
+.pasto-count {
+  animation: pasto-pop var(--dur-base) var(--ease-out) backwards;
+}
+.pasto-counter output {
+  display: inline-block;
+  animation: pasto-tick var(--dur-fast) var(--ease-out) backwards;
+}
+.pasto-panel:not(.pasto-sticky),
+.pasto-meal {
+  animation: pasto-fade var(--dur-base) var(--ease-out) backwards;
+}
+
+/* Secuencia de apertura de cada pantalla: los bloques de la página entran uno tras otro. */
+.page > * {
+  animation: pasto-rise var(--dur-slow) var(--ease-out) backwards;
+}
+.page > :nth-child(2) {
+  animation-delay: 70ms;
+}
+.page > :nth-child(3) {
+  animation-delay: 140ms;
+}
+.page > :nth-child(4) {
+  animation-delay: 210ms;
+}
+.page > :nth-child(n + 5) {
+  animation-delay: 280ms;
+}
+
+/* Las filas de platos entran en cascada corta dentro de su lista. */
+.pasto-meal:nth-child(1) {
+  animation-delay: 120ms;
+}
+.pasto-meal:nth-child(2) {
+  animation-delay: 170ms;
+}
+.pasto-meal:nth-child(3) {
+  animation-delay: 220ms;
+}
+.pasto-meal:nth-child(4) {
+  animation-delay: 270ms;
+}
+.pasto-meal:nth-child(n + 5) {
+  animation-delay: 320ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

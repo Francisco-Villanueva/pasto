@@ -82,7 +82,8 @@ type PageHeadProps = { label: string; title: string; children?: ReactNode };
 export function PageHead({ label, title, children }: PageHeadProps) {
   return (
     <div className="pasto-pagehead">
-      <span className="label">{label}</span>
+      {/* El titular ya dice dónde estás: el rótulo queda solo para lectores de pantalla. */}
+      <span className="sr-only">{label}</span>
       <h1 className="display-lg">{title}</h1>
       <Wave />
       {children && <p className="muted">{children}</p>}

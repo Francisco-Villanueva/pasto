@@ -3,6 +3,7 @@ import { ToastProvider } from "@/components/ui";
 import { THEME_INIT_SCRIPT } from "@/lib/theme";
 import "@design/tokens/pasto.css";
 import "@/styles/ui.css";
+import "@/styles/motion.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

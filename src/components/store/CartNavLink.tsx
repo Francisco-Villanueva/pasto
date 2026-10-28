@@ -14,7 +14,7 @@ export function CartNavLink() {
       Carrito
       {ready && count > 0 && (
         <>
-          <span className="pasto-count" aria-hidden="true">
+          <span key={count} className="pasto-count" aria-hidden="true">
             {count}
           </span>
           <span className="sr-only">

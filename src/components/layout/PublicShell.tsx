@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { ThemeToggle } from "../ThemeToggle";
 import { Logo } from "./Logo";
@@ -10,8 +11,11 @@ const BEFORE_CART = [
   { href: "/burritos", label: "Burritos" },
 ] as const;
 
-/** Estructura de la tienda: cabecera con navegación y tema, contenido y pie. */
-export function PublicShell({ children }: { children: ReactNode }) {
+/**
+ * Estructura de la tienda: cabecera con navegación y tema, contenido y pie.
+ * Con `bleed` el contenido no se envuelve: la página maneja su propio ancho (la portada ocupa todo el ancho).
+ */
+export function PublicShell({ children, bleed = false }: { children: ReactNode; bleed?: boolean }) {
   return (
     <>
       <header className="v-header">
@@ -29,18 +33,28 @@ export function PublicShell({ children }: { children: ReactNode }) {
           </nav>
         </div>
       </header>
-      <main className="wrap page">{children}</main>
-      <div className="wrap">
-        <footer className="pasto-footer">
+      {bleed ? <main>{children}</main> : <main className="wrap page">{children}</main>}
+      <footer className="pasto-footer">
+        <div className="wrap pasto-footer__grid">
           <div className="stack">
-            <span className="label">PASTO</span>
+            <span className="pasto-footer__logo">
+              {/* eslint-disable-next-line @next/next/no-img-element -- PNG de marca con ancho automático */}
+              <img src="/logos/pasto-logo-terracota.png" alt="PASTO" height={44} />
+            </span>
             <p className="body-sm">
               Viandas, burritos y complementos hechos en cocina propia. Pedidos con entrega los
               miércoles y, si está habilitado, los viernes.
             </p>
           </div>
-        </footer>
-      </div>
+          <nav className="pasto-footer__nav" aria-label="Pie de página">
+            <Link href="/meal-prep">Meal prep</Link>
+            <Link href="/burritos">Burritos</Link>
+            <Link href="/cart">Carrito</Link>
+            <Link href="/terminos">Términos</Link>
+            <Link href="/privacidad">Privacidad</Link>
+          </nav>
+        </div>
+      </footer>
     </>
   );
 }
