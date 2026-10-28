@@ -90,7 +90,6 @@ export function CartView({ catalog }: { catalog: StoreCatalog }) {
       <div className="pasto-split">
         <div className="stack-lg">
           <section className="stack" aria-label="Packs">
-            <span className="label">PACKS</span>
             {cart.packs.length === 0 && (
               <Panel>
                 <p className="title">No tenés packs en el carrito</p>
@@ -143,10 +142,10 @@ export function CartView({ catalog }: { catalog: StoreCatalog }) {
                 </Panel>
               );
             })}
-            <Notice>
-              No se pueden mezclar los planes <strong>Esencial</strong> y <strong>Proteico</strong>{" "}
-              en un mismo pedido. Los burritos y complementos van con cualquiera.
-            </Notice>
+            <p className="caption muted">
+              Esencial y Proteico no se mezclan en un mismo pedido. Los burritos y complementos van
+              con cualquiera.
+            </p>
           </section>
 
           {orphan && (
@@ -160,7 +159,7 @@ export function CartView({ catalog }: { catalog: StoreCatalog }) {
           )}
 
           <section className="stack" aria-label="Complementos">
-            <span className="label">SUMÁ UN COMPLEMENTO</span>
+            <h2 className="title">Sumá un complemento</h2>
             {complementProducts.map((product) => {
               const quantity =
                 cart.complements.find((c) => c.productId === product.id)?.quantity ?? 0;
@@ -210,7 +209,6 @@ export function CartView({ catalog }: { catalog: StoreCatalog }) {
         </div>
 
         <aside className="pasto-panel pasto-sticky" aria-label="Resumen">
-          <span className="label">RESUMEN</span>
           <div className="pasto-line">
             <span>Subtotal</span>
             <span className="num">{priced.ok ? formatMoney(priced.subtotalCents) : "—"}</span>
@@ -219,7 +217,6 @@ export function CartView({ catalog }: { catalog: StoreCatalog }) {
             <span>Envío</span>
             <span className="body-sm">Se calcula en el checkout</span>
           </div>
-          <hr style={{ width: "100%", border: 0, borderTop: "1.5px solid var(--border)" }} />
           <Button
             href="/checkout"
             aria-disabled={blocked}

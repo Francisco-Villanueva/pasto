@@ -111,27 +111,21 @@ export function PackBuilder({ catalog, mode }: { catalog: StoreCatalog; mode: Mo
 
       <div className="pasto-split">
         <div className="stack-lg">
-          <div className="row" style={{ gap: "var(--space-6)", alignItems: "flex-start" }}>
+          <div className="row" style={{ gap: "var(--space-4)" }}>
             {categories.length > 1 && (
-              <div className="stack" style={{ gap: "var(--space-2)" }}>
-                <span className="label">PLAN</span>
-                <Segmented
-                  label="Plan"
-                  value={category}
-                  onChange={(value) => reset(value, PACK_SIZES[value][0]!)}
-                  options={categories.map((c) => ({ value: c, label: CATEGORY_LABEL[c] }))}
-                />
-              </div>
-            )}
-            <div className="stack" style={{ gap: "var(--space-2)" }}>
-              <span className="label">TAMAÑO DEL PACK</span>
               <Segmented
-                label="Tamaño del pack"
-                value={size}
-                onChange={(value) => reset(category, value)}
-                options={PACK_SIZES[category].map((s) => ({ value: s, label: `${s} unidades` }))}
+                label="Plan"
+                value={category}
+                onChange={(value) => reset(value, PACK_SIZES[value][0]!)}
+                options={categories.map((c) => ({ value: c, label: CATEGORY_LABEL[c] }))}
               />
-            </div>
+            )}
+            <Segmented
+              label="Tamaño del pack"
+              value={size}
+              onChange={(value) => reset(category, value)}
+              options={PACK_SIZES[category].map((s) => ({ value: s, label: `${s} unidades` }))}
+            />
           </div>
 
           <div className="stack">
@@ -141,7 +135,10 @@ export function PackBuilder({ catalog, mode }: { catalog: StoreCatalog; mode: Mo
             {dishes.map((dish) => {
               const quantity = counts[dish.id] ?? 0;
               return (
-                <div key={dish.id} className="pasto-meal">
+                <div
+                  key={dish.id}
+                  className={quantity > 0 ? "pasto-meal is-selected" : "pasto-meal"}
+                >
                   <Plate name={dish.name} small />
                   <div className="stack" style={{ gap: "var(--space-1)" }}>
                     <div className="title">{dish.name}</div>
@@ -169,7 +166,7 @@ export function PackBuilder({ catalog, mode }: { catalog: StoreCatalog; mode: Mo
                       className="pasto-linklike"
                       onClick={() => setDetail(dish)}
                     >
-                      Ver ingredientes y alérgenos
+                      Ingredientes y alérgenos
                     </button>
                   </div>
                   <Counter
@@ -185,7 +182,6 @@ export function PackBuilder({ catalog, mode }: { catalog: StoreCatalog; mode: Mo
         </div>
 
         <aside className="pasto-panel pasto-sticky" aria-label="Resumen del pack">
-          <span className="label">TU PACK</span>
           <div className="row-between">
             <span className="display-md num">
               {used} de {size}
@@ -200,8 +196,6 @@ export function PackBuilder({ catalog, mode }: { catalog: StoreCatalog; mode: Mo
               ? "Pack completo. Podés agregarlo al carrito."
               : `Te faltan ${size - used} para completar el pack.`}
           </p>
-          <hr style={{ width: "100%", border: 0, borderTop: "1.5px solid var(--border)" }} />
-          <span className="label">TOTAL DE MACROS</span>
           <div className="pasto-macro-grid">
             <Stat label="Calorías" value={macros.calories} />
             <Stat label="Proteína g" value={macros.protein} />
@@ -211,9 +205,6 @@ export function PackBuilder({ catalog, mode }: { catalog: StoreCatalog; mode: Mo
           <Button disabled={!complete || price === undefined || !ready} onClick={add}>
             Agregar al carrito
           </Button>
-          <p className="caption muted">
-            Cualquier combinación vale: {size} unidades del mismo plato también es un pack válido.
-          </p>
         </aside>
       </div>
 

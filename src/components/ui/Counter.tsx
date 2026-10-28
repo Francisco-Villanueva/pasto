@@ -21,7 +21,7 @@ export function Counter({ label, value, onChange, min = 0, max }: Props) {
       >
         −
       </button>
-      <output aria-live="polite" aria-label={`Cantidad de ${label}`}>
+      <output key={value} aria-live="polite" aria-label={`Cantidad de ${label}`}>
         {value}
       </output>
       <button
