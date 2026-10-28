@@ -1,0 +1,210 @@
+/* Base de la app. Los valores salen de design/tokens; no se definen colores ni espacios acá. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+}
+body {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  padding-left: max(var(--space-4), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--space-4), env(safe-area-inset-right, 0px));
+}
+img {
+  max-width: 100%;
+}
+a {
+  color: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+/* Texto */
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(44px, 8vw, 72px);
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+.display-lg {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(36px, 6vw, 48px);
+  line-height: 1.08;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+.display-md {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 38px;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+.heading {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
+  text-wrap: balance;
+}
+.title {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+.body-sm {
+  font-size: 14px;
+  line-height: 20px;
+}
+.caption {
+  font-size: 12px;
+  line-height: 16px;
+}
+.label {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.muted {
+  color: var(--ink-muted);
+}
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Estructura */
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  width: 100%;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.grid {
+  display: grid;
+  gap: var(--space-8);
+}
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+}
+.page {
+  padding-block: var(--space-8) var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* Cabecera */
+.v-header {
+  padding-block: var(--space-4);
+  border-bottom: 1.5px solid var(--border);
+}
+.logo {
+  height: 36px;
+  width: auto;
+  max-width: none;
+}
+.logo-light {
+  display: block;
+}
+.logo-dark {
+  display: none;
+}
+:root[data-theme="carbon"] .logo-light {
+  display: none;
+}
+:root[data-theme="carbon"] .logo-dark {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="arena"]) .logo-light {
+    display: none;
+  }
+  :root:not([data-theme="arena"]) .logo-dark {
+    display: block;
+  }
+}
+.theme-btn {
+  border: 2px solid var(--border-strong);
+  background: transparent;
+  color: var(--ink);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font: 700 12px/16px var(--font-sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Bloques de marca */
+.hero {
+  background: var(--surface-brand);
+  color: var(--on-brand);
+  border-radius: var(--radius-lg);
+  padding: clamp(24px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.panel {
+  background: var(--surface-raised);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.swatch {
+  height: 72px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

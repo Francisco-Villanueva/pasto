@@ -1,0 +1,706 @@
+/* Componentes de la app sobre los tokens de design/. Prefijo pasto-, igual que los componentes base.
+   Sin sombras ni degradés; el estado nunca se marca solo con color. */
+
+/* ---- Segmentado ---- */
+.pasto-seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--surface-raised);
+  border-radius: var(--radius-pill);
+}
+.pasto-seg button {
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 700 14px/20px var(--font-sans);
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+.pasto-seg button:hover:not([aria-pressed="true"]) {
+  background: var(--border);
+}
+.pasto-seg button[aria-pressed="true"] {
+  background: var(--surface-brand);
+  color: var(--on-brand);
+}
+
+/* ---- Contador ---- */
+.pasto-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.pasto-counter button {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--border-strong);
+  background: transparent;
+  color: var(--ink);
+  font: 700 18px/1 var(--font-sans);
+  cursor: pointer;
+}
+.pasto-counter button:hover:not(:disabled) {
+  background: var(--surface-brand);
+  border-color: var(--surface-brand);
+  color: var(--on-brand);
+}
+.pasto-counter button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.pasto-counter output {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Campos ---- */
+.pasto-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pasto-field__label {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+}
+.pasto-field__hint {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ink-muted);
+}
+/* El error lleva texto en ink y un prefijo: no depende del color. */
+.pasto-field__error {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+}
+.pasto-input,
+.pasto-select,
+.pasto-textarea {
+  width: 100%;
+  font: 500 16px/24px var(--font-sans);
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+.pasto-textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+.pasto-input::placeholder,
+.pasto-textarea::placeholder {
+  color: var(--ink-muted);
+}
+.pasto-input:disabled,
+.pasto-select:disabled,
+.pasto-textarea:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.pasto-input[aria-invalid="true"],
+.pasto-select[aria-invalid="true"],
+.pasto-textarea[aria-invalid="true"] {
+  border-color: var(--accent);
+}
+
+/* ---- Opción (radio / casilla en tarjeta) ---- */
+.pasto-option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.pasto-option input {
+  margin-top: 4px;
+  accent-color: var(--verde);
+}
+.pasto-option:has(input:checked) {
+  background: var(--surface-raised);
+  border-color: var(--surface-brand);
+}
+.pasto-option:has(input:focus-visible) {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.pasto-option:has(input:disabled) {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ---- Interruptor ---- */
+.pasto-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pasto-switch input {
+  appearance: none;
+  flex: none;
+  width: 44px;
+  height: 26px;
+  margin: 0;
+  border-radius: var(--radius-pill);
+  background: var(--border-strong);
+  position: relative;
+  cursor: pointer;
+}
+.pasto-switch input::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--surface);
+  transition: transform 0.15s ease;
+}
+.pasto-switch input:checked {
+  background: var(--surface-brand);
+}
+.pasto-switch input:checked::after {
+  transform: translateX(18px);
+  background: var(--on-brand);
+}
+.pasto-switch input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ---- Aviso ---- */
+.pasto-notice {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  box-shadow: inset 0 0 0 1.5px var(--border-strong);
+  font-size: 14px;
+  line-height: 20px;
+}
+.pasto-notice--brand {
+  background: var(--surface-brand);
+  color: var(--on-brand);
+  box-shadow: none;
+}
+.pasto-notice__icon {
+  flex: none;
+  margin-top: 1px;
+}
+.pasto-notice strong {
+  font-weight: 700;
+}
+
+/* ---- Progreso ---- */
+.pasto-progress {
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--border);
+  overflow: hidden;
+}
+.pasto-progress > i {
+  display: block;
+  height: 100%;
+  background: var(--surface-brand);
+  border-radius: var(--radius-pill);
+  transition: width 0.2s ease;
+}
+
+/* ---- Estado (punto + rótulo) ---- */
+.pasto-dot {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink-muted);
+}
+.pasto-dot--terracota {
+  background: var(--terracota);
+}
+.pasto-dot--cobre {
+  background: var(--cobre);
+}
+.pasto-dot--verde {
+  background: var(--verde);
+}
+.pasto-dot--carbon {
+  background: var(--ink);
+}
+.pasto-dot--hollow {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--ink-muted);
+}
+.pasto-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+/* ---- Dato destacado ---- */
+.pasto-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.pasto-stat__value {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 44px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Tabla ---- */
+.pasto-table-wrap {
+  /* Contiene los .sr-only (absolute) de las celdas para que no ensanchen la página. */
+  position: relative;
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+.pasto-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 20px;
+}
+.pasto-table caption {
+  text-align: left;
+  padding: var(--space-4);
+}
+.pasto-table th {
+  text-align: left;
+  white-space: nowrap;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1.5px solid var(--border-strong);
+  color: var(--ink-muted);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.pasto-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1.5px solid var(--border);
+  vertical-align: middle;
+}
+.pasto-table tr:last-child td {
+  border-bottom: 0;
+}
+.pasto-table .is-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Modal (<dialog> nativo: foco atrapado y Esc de fábrica) ---- */
+.pasto-modal {
+  width: min(460px, calc(100% - 2 * var(--space-4)));
+  padding: var(--space-8);
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+}
+.pasto-modal::backdrop {
+  background: color-mix(in srgb, var(--carbon) 62%, transparent);
+}
+.pasto-modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---- Toast ---- */
+.pasto-toasts {
+  position: fixed;
+  left: 50%;
+  bottom: max(var(--space-6), env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  z-index: 30;
+  pointer-events: none;
+}
+.pasto-toast {
+  background: var(--surface-brand);
+  color: var(--on-brand);
+  border-radius: var(--radius-pill);
+  padding: var(--space-3) var(--space-6);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* ---- Panel y placeholders ---- */
+.pasto-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--surface-raised);
+  border-radius: var(--radius-md);
+}
+.pasto-plate {
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 4 / 3;
+  padding: var(--space-3);
+  background: var(--surface-brand);
+  color: var(--on-brand);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.pasto-plate--sm {
+  aspect-ratio: 1;
+  width: 72px;
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  overflow: hidden;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.pasto-plate--cafe {
+  background: var(--cafe);
+}
+
+/* ---- Estado vacío / error ---- */
+.pasto-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  background: var(--surface-raised);
+  border-radius: var(--radius-lg);
+}
+.pasto-empty__icon {
+  color: var(--ink-muted);
+}
+
+/* ---- Encabezado de página ---- */
+.pasto-pagehead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ---- Tienda: cabecera y pie ---- */
+.pasto-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.pasto-nav a {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+}
+.pasto-nav a:hover {
+  background: var(--surface-raised);
+}
+.pasto-nav a[aria-current="page"] {
+  background: var(--surface-brand);
+  color: var(--on-brand);
+}
+.pasto-footer {
+  margin-bottom: var(--space-8);
+  padding: var(--space-8);
+  background: var(--surface-brand);
+  color: var(--on-brand);
+  border-radius: var(--radius-lg);
+}
+
+/* ---- Backoffice: barra lateral ---- */
+.pasto-admin {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  gap: var(--space-8);
+  min-height: 100vh;
+}
+.pasto-side {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding-block: var(--space-6);
+}
+.pasto-sidenav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pasto-sidenav a {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 10px var(--space-4);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+}
+.pasto-sidenav a:hover {
+  background: var(--surface-raised);
+}
+.pasto-sidenav a[aria-current="page"] {
+  background: var(--surface-brand);
+  color: var(--on-brand);
+}
+@media (max-width: 900px) {
+  .pasto-admin {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+  .pasto-side {
+    position: static;
+  }
+  .pasto-sidenav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+}
+
+/* ---- Línea de tiempo (historial de cambios) ---- */
+.pasto-timeline {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pasto-timeline li {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+}
+.pasto-timeline .pasto-dot {
+  margin-top: 6px;
+}
+
+/* ---- Formularios y listas compuestas ---- */
+.pasto-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+.pasto-line--total {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+.pasto-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: var(--space-8);
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .pasto-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.pasto-sticky {
+  position: sticky;
+  top: var(--space-4);
+}
+.pasto-fields-2 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+.pasto-icon {
+  flex: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pasto-progress > i,
+  .pasto-switch input::after {
+    transition: none;
+  }
+}
+
+/* ---- Solo lectores de pantalla ---- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- Tienda: lista de platos y macros ---- */
+.pasto-meal {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-4);
+  background: var(--surface-raised);
+  border-radius: var(--radius-md);
+}
+@media (max-width: 520px) {
+  .pasto-meal {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+  .pasto-meal .pasto-counter {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+  .pasto-meal .pasto-plate--sm {
+    width: 56px;
+  }
+}
+.pasto-macros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ink-muted);
+}
+.pasto-macros b {
+  color: var(--ink);
+}
+.pasto-macro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+.pasto-stat--sm .pasto-stat__value {
+  font-size: 28px;
+  line-height: 32px;
+}
+.pasto-linklike {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.pasto-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink-muted);
+}
+
+/* ---- Botones sobre bloques verdes (portada y pie) ---- */
+.pasto-btn.pasto-btn--on-brand {
+  background: var(--on-brand);
+  color: var(--carbon);
+}
+.pasto-btn.pasto-btn--on-brand:hover {
+  background: var(--surface-raised);
+}
+.pasto-btn.pasto-btn--on-brand-outline {
+  background: transparent;
+  color: var(--on-brand);
+  border-color: var(--on-brand);
+}
+.pasto-btn.pasto-btn--on-brand-outline:hover {
+  background: color-mix(in srgb, var(--on-brand) 14%, transparent);
+}
+.pasto-block-brand {
+  padding: var(--space-8);
+  background: var(--surface-brand);
+  color: var(--on-brand);
+  border-radius: var(--radius-lg);
+}
+
+/* ---- Contador del carrito en la navegación ---- */
+.pasto-count {
+  display: inline-block;
+  min-width: 20px;
+  margin-left: var(--space-2);
+  padding: 0 6px;
+  border: 1.5px solid currentColor;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  line-height: 17px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Búsqueda de direcciones ---- */
+.pasto-suggest {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  margin: var(--space-1) 0 0;
+  padding: var(--space-2);
+  list-style: none;
+  max-height: 280px;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-md);
+}
+.pasto-suggest[hidden] {
+  display: none;
+}
+.pasto-suggest__item {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.pasto-suggest__item:hover,
+.pasto-suggest__item[aria-selected="true"] {
+  background: var(--surface-brand);
+  color: var(--on-brand);
+}
+.pasto-suggest__item:hover .muted,
+.pasto-suggest__item[aria-selected="true"] .muted {
+  color: var(--on-brand);
+}
