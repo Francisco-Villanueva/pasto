@@ -21,7 +21,7 @@ Next.js en **Vercel**, base de datos en **Neon** (proyecto `withered-snow-705572
 | `GOOGLE_MAPS_SERVER_KEY`                              | Recomendada          | Autocompletado y distancia por calle (Places y Routes). Sin ella el envío queda "a confirmar".                                                               |
 | `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Fase 7               | Google para clientes (`AUTH_SECRET` no se usa hoy). Redirect URI autorizada: `APP_URL/api/cuenta/google/callback`. El staff usa sesiones propias en la base. |
 | `STORAGE_*`                                           | Fase 7               | Fotos de platos (almacenamiento compatible con S3).                                                                                                          |
-| `CRON_SECRET`                                         | Fase 5               | Obligatorio: protege `/api/cron/abandoned-orders` (Vercel Cron, cada hora). Sin él la tarea no corre.                                                        |
+| `CRON_SECRET`                                         | Fase 5               | Obligatorio: protege `/api/cron/abandoned-orders` (sin cron por ahora: se llama a mano). Sin él la tarea no corre.                                           |
 
 Nunca subas `.env.local`: está en `.gitignore`. Las claves se cargan en Vercel, no en el repo.
 

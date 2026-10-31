@@ -51,7 +51,13 @@ const globalForLimits = globalThis as unknown as {
 };
 
 /** Limitadores compartidos por el proceso. Pedidos: 10 cada 10 min por IP. Direcciones: 40 por minuto. Ingreso del staff: 10 cada 15 min por IP. Encuesta: 60 guardados cada 10 min por IP. */
+/** Sin tope: lo usa `dev:local` (Playwright entra decenas de veces desde la misma IP). Solo se respeta fuera de producción. */
+const unlimited: RateLimiter = { hit: () => ({ allowed: true }) };
+
 export function limiters() {
+  if (process.env.DISABLE_RATE_LIMIT === "1" && process.env.NODE_ENV !== "production") {
+    return { orders: unlimited, address: unlimited, login: unlimited, survey: unlimited };
+  }
   globalForLimits.__pastoLimits ??= {
     orders: createRateLimiter(10, 10 * 60_000),
     address: createRateLimiter(40, 60_000),

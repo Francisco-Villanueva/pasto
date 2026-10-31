@@ -13,6 +13,8 @@ const child = spawn("npx", ["next", "dev", ...process.argv.slice(2)], {
     ...process.env,
     DATABASE_URL: "",
     DATABASE_URL_UNPOOLED: "",
+    // Los límites por IP harían fallar a Playwright: todos los tests entran desde la misma.
+    DISABLE_RATE_LIMIT: "1",
     // Carpeta de compilación propia: Next no deja dos servidores de desarrollo sobre la misma.
     NEXT_DIST_DIR: ".next-local",
   },

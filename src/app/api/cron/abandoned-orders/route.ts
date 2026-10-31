@@ -11,7 +11,7 @@ function isAuthorized(request: Request): boolean {
   return given.length === expected.length && timingSafeEqual(given, expected);
 }
 
-/** La llama Vercel Cron una vez por hora (ver `vercel.json`). */
+/** Por ahora no hay cron programado en `vercel.json`: se llama a mano con `Authorization: Bearer $CRON_SECRET`. */
 export async function GET(request: Request) {
   if (!isAuthorized(request)) {
     return Response.json({ error: { code: "UNAUTHORIZED" } }, { status: 401 });
