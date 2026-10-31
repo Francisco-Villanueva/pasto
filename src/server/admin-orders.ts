@@ -15,6 +15,7 @@ import { centsFromNumeric, numericFromCents } from "@/domain/money";
 import { buildOrderDraft, type DraftError, type OrderDraft } from "@/domain/order-draft";
 import { describeEdit, formatAddress, itemLabels, type OrderSnapshot } from "@/domain/order-diff";
 import {
+  ORDER_STATUSES,
   checkTransition,
   isEditableByAdmin,
   type OrderStatus,
@@ -119,6 +120,20 @@ export async function listOrders(db: AppDb, filters: OrderFilters = {}): Promise
     page,
     pageCount,
   };
+}
+
+/** Cantidad de pedidos por estado, para los filtros rápidos del listado. */
+export async function countOrdersByStatus(db: AppDb): Promise<Record<OrderStatus, number>> {
+  const rows = await db
+    .select({ status: orders.status, total: count() })
+    .from(orders)
+    .groupBy(orders.status);
+  const result = Object.fromEntries(ORDER_STATUSES.map((s) => [s, 0])) as Record<
+    OrderStatus,
+    number
+  >;
+  for (const row of rows) result[row.status] = row.total;
+  return result;
 }
 
 /** Fechas de entrega que tienen pedidos, para el filtro. */

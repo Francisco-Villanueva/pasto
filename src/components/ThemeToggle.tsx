@@ -1,5 +1,6 @@
 "use client";
 
+import { Moon, Sun } from "lucide-react";
 import { useSyncExternalStore } from "react";
 import { THEME_STORAGE_KEY, nextTheme, resolveTheme, type Theme } from "@/lib/theme";
 
@@ -21,7 +22,7 @@ function subscribe(onChange: () => void) {
   };
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ iconOnly = false }: { iconOnly?: boolean }) {
   const theme = useSyncExternalStore<Theme | null>(subscribe, currentTheme, () => null);
 
   function toggle() {
@@ -34,9 +35,19 @@ export function ThemeToggle() {
     }
   }
 
+  const label = theme === "carbon" ? "Tema Arena" : "Tema Carbón";
+  if (iconOnly) {
+    const Glyph = theme === "carbon" ? Sun : Moon;
+    return (
+      <button type="button" className="pasto-iconbtn" onClick={toggle} title={label}>
+        <Glyph size={18} strokeWidth={2} aria-hidden="true" />
+        <span className="sr-only">{label}</span>
+      </button>
+    );
+  }
   return (
     <button type="button" className="theme-btn" onClick={toggle}>
-      {theme === "carbon" ? "Tema Arena" : "Tema Carbón"}
+      {label}
     </button>
   );
 }

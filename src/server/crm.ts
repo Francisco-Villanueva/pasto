@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gt, lte, ne } from "drizzle-orm";
+import { and, asc, count, desc, eq, gt, lte, ne } from "drizzle-orm";
 import { crmTasks, orders } from "@/db/schema";
 import type { AppDb } from "@/db/types";
 import type { CrmTaskType } from "@/domain/crm";
@@ -58,6 +58,26 @@ export async function listCrmTasks(db: AppDb, now: Date, view: CrmView): Promise
         .orderBy(desc(crmTasks.completedAt))
         .limit(100);
   }
+}
+
+/** Cantidad de tareas pendientes para hoy (o atrasadas) y para los próximos días, para las solapas. */
+export async function countCrmTasks(
+  db: AppDb,
+  now: Date,
+): Promise<{ today: number; upcoming: number }> {
+  const today = localDate(now);
+  const rows = await db
+    .select({ scheduledFor: crmTasks.scheduledFor, total: count() })
+    .from(crmTasks)
+    .where(eq(crmTasks.status, "PENDIENTE"))
+    .groupBy(crmTasks.scheduledFor);
+  let due = 0;
+  let upcoming = 0;
+  for (const row of rows) {
+    if (row.scheduledFor <= today) due += row.total;
+    else upcoming += row.total;
+  }
+  return { today: due, upcoming };
 }
 
 /** Cuántas tareas hay para hoy (para el panel y el menú). */
