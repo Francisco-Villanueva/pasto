@@ -1,8 +1,20 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MessageCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarClock,
+  History,
+  MessageCircle,
+  Pencil,
+  Receipt,
+  ShoppingBag,
+  UserRound,
+  Zap,
+} from "lucide-react";
 import { Button, Tag } from "@design/react";
 import { OrderActions } from "@/components/admin/OrderActions";
+import { OrderStepper } from "@/components/admin/OrderStepper";
 import {
   Icon,
   Notice,
@@ -63,11 +75,14 @@ export default async function PedidoDetailPage({ params }: { params: Promise<{ i
 
   return (
     <>
+      <Link href="/admin/pedidos" className="pasto-back">
+        <Icon icon={ArrowLeft} size={16} /> Volver a pedidos
+      </Link>
       <div className="row-between">
         <PageHead label="PEDIDO" title={order.orderNumber} />
         {canManage && isEditableByAdmin(order.status) && (
           <Button href={`/admin/pedidos/${order.id}/editar`} variant="secondary">
-            Editar pedido
+            <Icon icon={Pencil} /> Editar pedido
           </Button>
         )}
       </div>
@@ -78,6 +93,8 @@ export default async function PedidoDetailPage({ params }: { params: Promise<{ i
         {order.origin === "MANUAL" && <Tag tone="outline">Cargado a mano</Tag>}
         <span className="body-sm muted">Creado el {formatDateTime(order.createdAt)}</span>
       </div>
+
+      <OrderStepper status={order.status} />
 
       {order.status === "CANCELADO" && order.cancellationReason && (
         <Notice tone="brand" role="status">
@@ -95,7 +112,7 @@ export default async function PedidoDetailPage({ params }: { params: Promise<{ i
 
       <div className="pasto-split">
         <div className="stack-lg">
-          <Panel label="Contenido">
+          <Panel label="Contenido" icon={ShoppingBag}>
             {order.items.map((item) => (
               <div key={item.id} className="stack" style={{ gap: "var(--space-1)" }}>
                 <div className="row-between">
@@ -117,7 +134,7 @@ export default async function PedidoDetailPage({ params }: { params: Promise<{ i
             ))}
           </Panel>
 
-          <Panel label="Entrega">
+          <Panel label="Entrega" icon={CalendarClock}>
             <p>
               <b>
                 {formatShortDate(order.scheduledDate)} · {order.scheduledTimeSlot}
@@ -152,7 +169,7 @@ export default async function PedidoDetailPage({ params }: { params: Promise<{ i
             )}
           </Panel>
 
-          <Panel label="Cliente">
+          <Panel label="Cliente" icon={UserRound}>
             <p>
               <b>{order.customerName}</b>
               <br />
@@ -178,7 +195,18 @@ export default async function PedidoDetailPage({ params }: { params: Promise<{ i
         </div>
 
         <aside className="stack pasto-sticky">
-          <Panel label="Resumen">
+          {canManage && (
+            <Panel label="Qué hacer ahora" icon={Zap} className="pasto-panel--action">
+              <OrderActions
+                orderId={order.id}
+                actions={actions}
+                paymentMethod={order.paymentMethod}
+                paymentStatus={order.paymentStatus}
+              />
+            </Panel>
+          )}
+
+          <Panel label="Resumen" icon={Receipt}>
             <div className="pasto-line">
               <span>Subtotal</span>
               <span className="num">{formatMoney(order.subtotalCents)}</span>
@@ -200,18 +228,7 @@ export default async function PedidoDetailPage({ params }: { params: Promise<{ i
             </p>
           </Panel>
 
-          {canManage && (
-            <Panel label="Acciones">
-              <OrderActions
-                orderId={order.id}
-                actions={actions}
-                paymentMethod={order.paymentMethod}
-                paymentStatus={order.paymentStatus}
-              />
-            </Panel>
-          )}
-
-          <Panel label="Historial">
+          <Panel label="Historial" icon={History}>
             <Timeline items={history} />
           </Panel>
         </aside>

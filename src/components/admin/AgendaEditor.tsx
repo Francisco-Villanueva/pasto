@@ -2,8 +2,18 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Button, Tag } from "@design/react";
-import { Notice, Panel, Switch, TextareaField, TextField, useToast } from "@/components/ui";
+import { Button } from "@design/react";
+import { CalendarCheck, Clock, Plus, Route, Save, ShoppingBag, Timer, Trash2 } from "lucide-react";
+import {
+  Icon,
+  Notice,
+  Panel,
+  Status,
+  Switch,
+  TextareaField,
+  TextField,
+  useToast,
+} from "@/components/ui";
 import { formatDeliveryDay } from "@/domain/schedule";
 import type { AgendaData, AgendaDay } from "@/server/admin-agenda";
 import {
@@ -55,21 +65,28 @@ function DayRow({ day }: { day: AgendaDay }) {
   const dirty = isOpen !== day.isOpen || linesToSlots(slots).join("|") !== day.slots.join("|");
 
   return (
-    <li className="pasto-panel stack">
-      <div className="row-between">
-        <div className="stack" style={{ gap: 2 }}>
-          <b>{formatDeliveryDay(day.date)}</b>
-          <span className="caption muted">
-            {day.cutoffPassed ? "Cerró" : "Cierra"} {day.cutoff}
-            {day.activeOrders > 0 &&
-              ` · ${day.activeOrders} ${day.activeOrders === 1 ? "pedido" : "pedidos"}`}
-          </span>
-        </div>
-        <Tag tone={day.isOpen ? "brand" : "outline"}>{day.isOpen ? "Abierto" : "Cerrado"}</Tag>
+    <li className={day.isOpen ? "pasto-day is-open" : "pasto-day"}>
+      <div className="pasto-day__head">
+        <b className="pasto-day__date">{formatDeliveryDay(day.date)}</b>
+        <Status tone={day.isOpen ? "verde" : "hollow"} tag={day.isOpen ? "brand" : "outline"}>
+          {day.isOpen ? "Abierto" : "Cerrado"}
+        </Status>
       </div>
+      <p className="pasto-day__facts caption">
+        <span className="pasto-iconline">
+          <Icon icon={Clock} size={14} />
+          {day.cutoffPassed ? "Cerró" : "Cierra"} {day.cutoff}
+        </span>
+        <span className="pasto-iconline">
+          <Icon icon={ShoppingBag} size={14} />
+          {day.activeOrders === 0
+            ? "Sin pedidos"
+            : `${day.activeOrders} ${day.activeOrders === 1 ? "pedido" : "pedidos"}`}
+        </span>
+      </p>
 
       <Switch
-        label="Recibir pedidos para este día"
+        label="Recibir pedidos"
         checked={isOpen}
         onChange={(e) => setIsOpen(e.target.checked)}
       />
@@ -89,22 +106,49 @@ function DayRow({ day }: { day: AgendaDay }) {
           {error}
         </Notice>
       )}
-      <div>
-        <Button
-          small
-          variant="secondary"
-          disabled={pending || !dirty}
-          onClick={() =>
-            save(
-              () => updateDayAction({ date: day.date, isOpen, slots: linesToSlots(slots) }),
-              "Día guardado",
-            )
-          }
-        >
-          Guardar día
-        </Button>
-      </div>
+      <Button
+        small
+        variant="secondary"
+        disabled={pending || !dirty}
+        onClick={() =>
+          save(
+            () => updateDayAction({ date: day.date, isOpen, slots: linesToSlots(slots) }),
+            "Día guardado",
+          )
+        }
+      >
+        <Icon icon={Save} size={16} /> {dirty ? "Guardar cambios" : "Sin cambios"}
+      </Button>
     </li>
+  );
+}
+
+const toNumber = (text: string) => Number(text.trim().replace(",", "."));
+
+/** Regla de distancias: cada tramo como un segmento proporcional a sus kilómetros, con su costo. */
+function TierRuler({ rows, maxKm }: { rows: { km: string; fee: string }[]; maxKm: string }) {
+  const stops = rows
+    .map((r) => ({ km: toNumber(r.km), fee: pesosToCents(r.fee) }))
+    .filter((r) => Number.isFinite(r.km) && r.km > 0)
+    .sort((a, b) => a.km - b.km);
+  if (stops.length === 0) return null;
+  const limit = Math.max(toNumber(maxKm) || 0, stops[stops.length - 1]!.km);
+  return (
+    <ol className="pasto-ruler" aria-label="Resumen de tramos">
+      {stops.map((stop, i) => {
+        const from = i === 0 ? 0 : stops[i - 1]!.km;
+        const width = ((stop.km - from) / limit) * 100;
+        const label = `${String(from).replace(".", ",")} a ${String(stop.km).replace(".", ",")} km`;
+        return (
+          <li key={i} style={{ flexBasis: `${width}%` }}>
+            <span className="pasto-ruler__fee num">
+              {Number.isNaN(stop.fee) ? "—" : `$${(stop.fee / 100).toLocaleString("es-AR")}`}
+            </span>
+            <span className="pasto-ruler__km caption">{label}</span>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
@@ -139,8 +183,9 @@ function ShippingForm({ data }: { data: AgendaData }) {
         El costo se calcula con la distancia por calle desde el local. Cada tramo vale hasta la
         distancia indicada.
       </p>
+      <TierRuler rows={rows} maxKm={maxKm} />
       {rows.map((row, i) => (
-        <div key={i} className="pasto-fields-2">
+        <div key={i} className="pasto-tier">
           <TextField
             label={`Tramo ${i + 1}: hasta (km)`}
             inputMode="decimal"
@@ -164,7 +209,7 @@ function ShippingForm({ data }: { data: AgendaData }) {
               variant="ghost"
               onClick={() => setRows(rows.filter((_, j) => j !== i))}
             >
-              Quitar tramo {i + 1}
+              <Icon icon={Trash2} size={16} /> Quitar tramo {i + 1}
             </Button>
           </div>
         </div>
@@ -176,7 +221,7 @@ function ShippingForm({ data }: { data: AgendaData }) {
           variant="secondary"
           onClick={() => setRows([...rows, { km: "", fee: "" }])}
         >
-          Agregar tramo
+          <Icon icon={Plus} size={16} /> Agregar tramo
         </Button>
       </div>
       <TextField
@@ -193,7 +238,7 @@ function ShippingForm({ data }: { data: AgendaData }) {
       )}
       <div>
         <Button type="submit" disabled={pending}>
-          Guardar tramos
+          <Icon icon={Save} /> Guardar tramos
         </Button>
       </div>
     </form>
@@ -241,7 +286,7 @@ function GeneralForm({ data }: { data: AgendaData }) {
       )}
       <div>
         <Button type="submit" disabled={pending}>
-          Guardar ajustes
+          <Icon icon={Save} /> Guardar ajustes
         </Button>
       </div>
     </form>
@@ -252,39 +297,41 @@ export function AgendaEditor({ data }: { data: AgendaData }) {
   return (
     <>
       <section className="stack" aria-labelledby="ag-dias">
-        <h2 id="ag-dias" className="heading">
-          Días de entrega
+        <h2 id="ag-dias" className="heading pasto-h-icon">
+          <Icon icon={CalendarCheck} size={22} /> Días de entrega
         </h2>
         <p className="muted body-sm">
           Los miércoles se abren solos. Los viernes y los feriados los abrís o cerrás acá.
         </p>
-        <ul className="stack" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        <ul className="pasto-days">
           {data.days.map((day) => (
             <DayRow key={`${day.date}-${day.isOpen}-${day.slots.join("|")}`} day={day} />
           ))}
         </ul>
       </section>
 
-      <section className="stack" aria-labelledby="ag-envio">
-        <h2 id="ag-envio" className="heading">
-          Envío por distancia
-        </h2>
-        <Panel>
-          <ShippingForm key={JSON.stringify(data.tiers) + data.maxDistanceM} data={data} />
-        </Panel>
-      </section>
+      <div className="pasto-agenda-settings">
+        <section className="stack" aria-labelledby="ag-envio">
+          <h2 id="ag-envio" className="heading pasto-h-icon">
+            <Icon icon={Route} size={22} /> Envío por distancia
+          </h2>
+          <Panel>
+            <ShippingForm key={JSON.stringify(data.tiers) + data.maxDistanceM} data={data} />
+          </Panel>
+        </section>
 
-      <section className="stack" aria-labelledby="ag-general">
-        <h2 id="ag-general" className="heading">
-          Pedidos sin confirmar
-        </h2>
-        <Panel>
-          <GeneralForm
-            key={`${data.abandonAfterHours}-${data.defaultSlots.join("|")}`}
-            data={data}
-          />
-        </Panel>
-      </section>
+        <section className="stack" aria-labelledby="ag-general">
+          <h2 id="ag-general" className="heading pasto-h-icon">
+            <Icon icon={Timer} size={22} /> Pedidos sin confirmar
+          </h2>
+          <Panel>
+            <GeneralForm
+              key={`${data.abandonAfterHours}-${data.defaultSlots.join("|")}`}
+              data={data}
+            />
+          </Panel>
+        </section>
+      </div>
     </>
   );
 }

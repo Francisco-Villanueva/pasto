@@ -51,12 +51,16 @@ async function manual(phone: string) {
 
 describe("panel", () => {
   it("sin pedidos todo está en cero y no hay próxima entrega", async () => {
-    expect(await loadDashboard(db, TEST_NOW)).toEqual({
+    const data = await loadDashboard(db, TEST_NOW);
+    expect(data).toMatchObject({
       toConfirm: 0,
       preliminary: 0,
       feeToConfirm: 0,
+      followUpsDue: 0,
+      upcoming: [],
       next: null,
     });
+    expect(Object.values(data.byStatus).every((n) => n === 0)).toBe(true);
   });
 
   it("los importes solo cuentan pedidos confirmados en adelante", async () => {
@@ -87,5 +91,7 @@ describe("panel", () => {
     expect(data.next?.orders).toBe(2);
     expect(data.next?.revenueCents).toBe(2_150_000);
     expect(data.next?.unpaid).toBe(1);
+    expect(data.byStatus.CONFIRMADO).toBe(1);
+    expect(data.upcoming).toEqual([{ date: "2026-11-04", orders: 2, revenueCents: 2_150_000 }]);
   });
 });

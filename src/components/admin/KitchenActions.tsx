@@ -3,7 +3,8 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@design/react";
-import { useToast } from "@/components/ui";
+import { Flame, PackageCheck } from "lucide-react";
+import { Icon, useToast } from "@/components/ui";
 import type { OrderStatus } from "@/domain/orders";
 import { changeStatusAction } from "@/app/admin/(panel)/pedidos/actions";
 
@@ -16,16 +17,15 @@ export function KitchenActions({ orderId, status }: { orderId: string; status: O
 
   const next =
     status === "CONFIRMADO"
-      ? { to: "EN_PRODUCCION" as const, label: "Empezar" }
+      ? { to: "EN_PRODUCCION" as const, label: "Empezar a cocinar", icon: Flame }
       : status === "EN_PRODUCCION"
-        ? { to: "LISTO" as const, label: "Marcar listo" }
+        ? { to: "LISTO" as const, label: "Marcar listo", icon: PackageCheck }
         : null;
   if (!next) return null;
 
   return (
     <div className="stack" style={{ gap: "var(--space-1)" }}>
       <Button
-        small
         disabled={pending}
         onClick={() => {
           setError(null);
@@ -38,7 +38,7 @@ export function KitchenActions({ orderId, status }: { orderId: string; status: O
           });
         }}
       >
-        {next.label}
+        <Icon icon={next.icon} /> {next.label}
       </Button>
       {error && (
         <span className="caption" role="alert">

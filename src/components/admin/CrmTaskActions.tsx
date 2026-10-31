@@ -3,7 +3,8 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@design/react";
-import { Modal, Notice, TextareaField, useToast } from "@/components/ui";
+import { Check, MessageCircle, SkipForward } from "lucide-react";
+import { Icon, Modal, Notice, TextareaField, useToast } from "@/components/ui";
 import { resolveTaskAction } from "@/app/admin/(panel)/crm/actions";
 
 type Props = { taskId: string; whatsappUrl: string };
@@ -40,13 +41,13 @@ export function CrmTaskActions({ taskId, whatsappUrl }: Props) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Abrir WhatsApp
+          <Icon icon={MessageCircle} size={16} /> Abrir WhatsApp
         </Button>
         <Button small disabled={pending} onClick={() => resolve("COMPLETADA")}>
-          Completar
+          <Icon icon={Check} size={16} /> Completar
         </Button>
         <Button small variant="ghost" disabled={pending} onClick={() => setSkipOpen(true)}>
-          Omitir
+          <Icon icon={SkipForward} size={16} /> Omitir
         </Button>
       </div>
       {error && !skipOpen && (

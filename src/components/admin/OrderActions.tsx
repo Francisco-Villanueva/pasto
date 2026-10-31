@@ -3,10 +3,28 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@design/react";
-import { Modal, Notice, SelectField, TextareaField, useToast } from "@/components/ui";
+import {
+  ArrowRight,
+  Ban,
+  BadgeCheck,
+  CircleDollarSign,
+  FastForward,
+  RotateCcw,
+  Undo2,
+  type LucideIcon,
+} from "lucide-react";
+import { Icon, Modal, Notice, SelectField, TextareaField, useToast } from "@/components/ui";
 import type { OrderStatus } from "@/domain/orders";
 import { PAYMENT_METHOD_LABEL, type TransitionKind } from "@/lib/order-labels";
 import { changeStatusAction, updatePaymentAction } from "@/app/admin/(panel)/pedidos/actions";
+
+const KIND_ICON: Record<TransitionKind, LucideIcon> = {
+  forward: ArrowRight,
+  skip: FastForward,
+  back: Undo2,
+  cancel: Ban,
+  reactivate: RotateCcw,
+};
 
 type Action = { to: OrderStatus; label: string; kind: TransitionKind };
 
@@ -60,7 +78,7 @@ export function OrderActions({ orderId, actions, paymentMethod, paymentStatus }:
       <div className="stack" style={{ gap: "var(--space-2)", alignItems: "stretch" }}>
         {primary && (
           <Button disabled={pending} onClick={() => changeStatus(primary.to)}>
-            {primary.label}
+            {primary.label} <Icon icon={ArrowRight} />
           </Button>
         )}
         {others.map((action) => (
@@ -70,12 +88,12 @@ export function OrderActions({ orderId, actions, paymentMethod, paymentStatus }:
             disabled={pending}
             onClick={() => changeStatus(action.to)}
           >
-            {action.label}
+            <Icon icon={KIND_ICON[action.kind]} /> {action.label}
           </Button>
         ))}
         {cancel && (
           <Button variant="ghost" disabled={pending} onClick={() => setCancelOpen(true)}>
-            {cancel.label}
+            <Icon icon={Ban} /> {cancel.label}
           </Button>
         )}
         {actions.length === 0 && (
@@ -85,7 +103,10 @@ export function OrderActions({ orderId, actions, paymentMethod, paymentStatus }:
 
       <hr style={{ width: "100%", border: 0, borderTop: "1.5px solid var(--border)" }} />
 
-      <span className="label">PAGO</span>
+      <span className="label pasto-panel__label">
+        <Icon icon={CircleDollarSign} size={16} />
+        PAGO
+      </span>
       <SelectField
         label="Medio de pago"
         value={method}
@@ -110,7 +131,7 @@ export function OrderActions({ orderId, actions, paymentMethod, paymentStatus }:
             run(() => updatePaymentAction({ orderId, status: "PAGADO" }), "Pago registrado")
           }
         >
-          Marcar pago recibido
+          <Icon icon={BadgeCheck} /> Marcar pago recibido
         </Button>
       ) : (
         <Button
@@ -123,7 +144,7 @@ export function OrderActions({ orderId, actions, paymentMethod, paymentStatus }:
             )
           }
         >
-          Marcar pago como pendiente
+          <Icon icon={Undo2} /> Marcar pago como pendiente
         </Button>
       )}
 

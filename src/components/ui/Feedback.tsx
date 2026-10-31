@@ -93,16 +93,24 @@ export function PageHead({ label, title, children }: PageHeadProps) {
 
 export function Panel({
   label,
+  icon,
   children,
   className,
 }: {
   label?: string;
+  /** Ícono que acompaña al rótulo, para reconocer la tarjeta de un vistazo. */
+  icon?: LucideIcon;
   children: ReactNode;
   className?: string;
 }) {
   return (
     <section className={cx("pasto-panel", className)}>
-      {label && <span className="label">{label}</span>}
+      {label && (
+        <span className="label pasto-panel__label">
+          {icon && <Icon icon={icon} size={16} />}
+          {label}
+        </span>
+      )}
       {children}
     </section>
   );

@@ -1,26 +1,48 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SearchX } from "lucide-react";
-import { Button, Tag } from "@design/react";
+import {
+  ArrowRight,
+  Clock,
+  Eraser,
+  Plus,
+  Search,
+  SearchX,
+  SlidersHorizontal,
+  Store,
+  Truck,
+  TriangleAlert,
+} from "lucide-react";
+import { Button } from "@design/react";
 import {
   EmptyState,
+  Icon,
   OrderStatusBadge,
   PageHead,
   PaymentBadge,
-  SelectField,
   Table,
-  TextField,
+  cx,
 } from "@/components/ui";
 import { getDb } from "@/db";
 import { formatMoney } from "@/domain/money";
-import { ORDER_STATUSES } from "@/domain/orders";
+import { ORDER_STATUSES, type OrderStatus } from "@/domain/orders";
 import { formatShortDate } from "@/domain/schedule";
 import { orderFiltersToQuery, parseOrderFilters } from "@/lib/order-filters";
 import { STATUS_LABEL } from "@/lib/order-labels";
-import { listOrderDates, listOrders } from "@/server/admin-orders";
+import { countOrdersByStatus, listOrderDates, listOrders } from "@/server/admin-orders";
 import { requireStaff } from "@/server/auth/dal";
 
 export const metadata: Metadata = { title: "Pedidos" };
+
+/** Orden de los filtros rápidos: primero lo que espera una decisión, al final lo cerrado. */
+const QUICK_STATUSES: OrderStatus[] = [
+  "PENDIENTE_CONFIRMACION",
+  "CONFIRMADO",
+  "EN_PRODUCCION",
+  "LISTO",
+  "PRELIMINAR",
+  "ENTREGADO",
+  "CANCELADO",
+];
 
 export default async function PedidosPage({
   searchParams,
@@ -30,68 +52,104 @@ export default async function PedidosPage({
   await requireStaff("ORDERS_VIEW");
   const filters = parseOrderFilters(await searchParams);
   const db = await getDb();
-  const [list, dates] = await Promise.all([listOrders(db, filters), listOrderDates(db)]);
+  const [list, dates, counts] = await Promise.all([
+    listOrders(db, filters),
+    listOrderDates(db),
+    countOrdersByStatus(db),
+  ]);
+  const totalAll = ORDER_STATUSES.reduce((sum, s) => sum + counts[s], 0);
 
   const hasFilters = Boolean(
     filters.date || filters.status || filters.deliveryType || filters.paymentStatus || filters.q,
   );
+  const hrefFor = (status?: OrderStatus) =>
+    `/admin/pedidos${orderFiltersToQuery({ ...filters, status, page: undefined })}`;
 
   return (
     <>
       <div className="row-between">
         <PageHead label="PEDIDOS" title="Pedidos" />
-        <Button href="/admin/pedidos/nuevo">Nuevo pedido</Button>
+        <Button href="/admin/pedidos/nuevo">
+          <Icon icon={Plus} /> Nuevo pedido
+        </Button>
       </div>
 
-      <form method="get" className="stack" aria-label="Filtros">
-        <div className="pasto-fields-2">
-          <SelectField label="Fecha de entrega" name="fecha" defaultValue={filters.date ?? ""}>
-            <option value="">Todas</option>
+      <nav className="pasto-chips" aria-label="Filtrar por estado">
+        <Link
+          href={hrefFor(undefined)}
+          className="pasto-chip"
+          aria-current={filters.status ? undefined : "page"}
+        >
+          Todos <span className="pasto-chip__count num">{totalAll}</span>
+        </Link>
+        {QUICK_STATUSES.map((status) => {
+          const attention = status === "PENDIENTE_CONFIRMACION" && counts[status] > 0;
+          return (
+            <Link
+              key={status}
+              href={hrefFor(status)}
+              className={cx("pasto-chip", attention && "pasto-chip--attention")}
+              aria-current={filters.status === status ? "page" : undefined}
+            >
+              {attention && <Icon icon={TriangleAlert} size={14} />}
+              {STATUS_LABEL[status]}
+              <span className="pasto-chip__count num">{counts[status]}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      <form method="get" className="pasto-filterbar" aria-label="Buscar y filtrar">
+        {filters.status && <input type="hidden" name="estado" value={filters.status} />}
+        <label className="pasto-search">
+          <Icon icon={Search} />
+          <span className="sr-only">Buscar</span>
+          <input
+            className="pasto-input"
+            type="search"
+            name="q"
+            defaultValue={filters.q ?? ""}
+            placeholder="Número de pedido, nombre o teléfono"
+          />
+        </label>
+        <label className="pasto-filterbar__select">
+          <span className="sr-only">Fecha de entrega</span>
+          <select className="pasto-select" name="fecha" defaultValue={filters.date ?? ""}>
+            <option value="">Todas las fechas</option>
             {dates.map((date) => (
               <option key={date} value={date}>
                 {formatShortDate(date)}
               </option>
             ))}
-          </SelectField>
-          <SelectField label="Estado" name="estado" defaultValue={filters.status ?? ""}>
-            <option value="">Todos</option>
-            {ORDER_STATUSES.map((status) => (
-              <option key={status} value={status}>
-                {STATUS_LABEL[status]}
-              </option>
-            ))}
-          </SelectField>
-          <SelectField label="Entrega" name="entrega" defaultValue={filters.deliveryType ?? ""}>
-            <option value="">Todas</option>
+          </select>
+        </label>
+        <label className="pasto-filterbar__select">
+          <span className="sr-only">Tipo de entrega</span>
+          <select className="pasto-select" name="entrega" defaultValue={filters.deliveryType ?? ""}>
+            <option value="">Envío y retiro</option>
             <option value="DELIVERY">Envío</option>
             <option value="RETIRO">Retiro</option>
-          </SelectField>
-          <SelectField label="Pago" name="pago" defaultValue={filters.paymentStatus ?? ""}>
-            <option value="">Todos</option>
-            <option value="PENDIENTE">Pendiente</option>
+          </select>
+        </label>
+        <label className="pasto-filterbar__select">
+          <span className="sr-only">Pago</span>
+          <select className="pasto-select" name="pago" defaultValue={filters.paymentStatus ?? ""}>
+            <option value="">Todos los pagos</option>
+            <option value="PENDIENTE">Pago pendiente</option>
             <option value="PAGADO">Pagado</option>
-          </SelectField>
-        </div>
-        <TextField
-          label="Buscar"
-          name="q"
-          defaultValue={filters.q ?? ""}
-          placeholder="Número de pedido, nombre o teléfono"
-          type="search"
-        />
-        <div className="row">
-          <Button type="submit" variant="secondary">
-            Filtrar
+          </select>
+        </label>
+        <Button type="submit" variant="secondary">
+          <Icon icon={SlidersHorizontal} /> Filtrar
+        </Button>
+        {hasFilters && (
+          <Button href="/admin/pedidos" variant="ghost">
+            <Icon icon={Eraser} /> Limpiar
           </Button>
-          {hasFilters && (
-            <Button href="/admin/pedidos" variant="ghost">
-              Limpiar filtros
-            </Button>
-          )}
-          <span className="body-sm muted" role="status">
-            {list.total === 1 ? "1 pedido" : `${list.total} pedidos`}
-          </span>
-        </div>
+        )}
+        <span className="body-sm muted pasto-filterbar__count" role="status">
+          {list.total === 1 ? "1 pedido" : `${list.total} pedidos`}
+        </span>
       </form>
 
       {list.rows.length === 0 ? (
@@ -116,46 +174,58 @@ export default async function PedidosPage({
             </tr>
           </thead>
           <tbody>
-            {list.rows.map((order) => (
-              <tr key={order.id}>
-                <td>
-                  <Link href={`/admin/pedidos/${order.id}`}>
-                    <b>{order.orderNumber}</b>
-                  </Link>
-                  {order.origin === "MANUAL" && (
-                    <>
-                      {" "}
-                      <Tag tone="outline">Manual</Tag>
-                    </>
-                  )}
-                </td>
-                <td>
-                  {order.customerName}
-                  <br />
-                  <span className="caption muted">{order.customerPhone}</span>
-                </td>
-                <td>
-                  {formatShortDate(order.scheduledDate)} · {order.scheduledTimeSlot}
-                  <br />
-                  <span className="caption muted">
-                    {order.deliveryType === "DELIVERY" ? "Envío" : "Retiro"}
-                    {order.feeToConfirm ? " · envío a confirmar" : ""}
-                  </span>
-                </td>
-                <td>
-                  <OrderStatusBadge status={order.status} />
-                </td>
-                <td>
-                  <PaymentBadge status={order.paymentStatus} />
-                </td>
-                <td className="is-num">{formatMoney(order.totalCents)}</td>
-                <td className="is-num">
-                  <Button href={`/admin/pedidos/${order.id}`} variant="ghost" small>
-                    Abrir
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            {list.rows.map((order) => {
+              const toDecide = order.status === "PENDIENTE_CONFIRMACION";
+              return (
+                <tr key={order.id} className={toDecide ? "is-attention" : undefined}>
+                  <td>
+                    <Link href={`/admin/pedidos/${order.id}`} className="pasto-ordernum">
+                      {order.orderNumber}
+                    </Link>
+                    {order.origin === "MANUAL" && (
+                      <span className="caption muted pasto-block">Cargado a mano</span>
+                    )}
+                  </td>
+                  <td>
+                    <b>{order.customerName}</b>
+                    <span className="caption muted pasto-block num">{order.customerPhone}</span>
+                  </td>
+                  <td>
+                    <span className="pasto-iconline">
+                      <Icon icon={Clock} size={14} />
+                      {formatShortDate(order.scheduledDate)} · {order.scheduledTimeSlot}
+                    </span>
+                    <span className="pasto-iconline caption muted">
+                      <Icon icon={order.deliveryType === "DELIVERY" ? Truck : Store} size={14} />
+                      {order.deliveryType === "DELIVERY" ? "Envío" : "Retiro"}
+                    </span>
+                    {order.feeToConfirm && (
+                      <span className="pasto-flagtag">
+                        <Icon icon={TriangleAlert} size={12} /> Cotizar envío
+                      </span>
+                    )}
+                  </td>
+                  <td>
+                    <OrderStatusBadge status={order.status} />
+                  </td>
+                  <td>
+                    <PaymentBadge status={order.paymentStatus} />
+                  </td>
+                  <td className="is-num">
+                    <b>{formatMoney(order.totalCents)}</b>
+                  </td>
+                  <td className="is-num">
+                    <Button
+                      href={`/admin/pedidos/${order.id}`}
+                      variant={toDecide ? "secondary" : "ghost"}
+                      small
+                    >
+                      {toDecide ? "Revisar" : "Abrir"} <Icon icon={ArrowRight} size={16} />
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       )}

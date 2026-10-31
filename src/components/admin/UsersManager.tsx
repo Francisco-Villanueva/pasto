@@ -2,8 +2,20 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Button, Tag } from "@design/react";
-import { Modal, Notice, SelectField, Table, TextField, useToast } from "@/components/ui";
+import { Button } from "@design/react";
+import {
+  ChefHat,
+  Clock,
+  KeyRound,
+  Plus,
+  Save,
+  ShieldCheck,
+  UserCheck,
+  UserPlus,
+  UserX,
+  type LucideIcon,
+} from "lucide-react";
+import { Icon, Modal, Notice, SelectField, Status, TextField, useToast } from "@/components/ui";
 import {
   createUserAction,
   resetUserPasswordAction,
@@ -22,6 +34,17 @@ export type UserRow = {
 };
 
 const ROLE_LABEL = { ADMIN: "Administración", COCINA: "Cocina" } as const;
+
+const ROLE_INFO: Record<UserRow["role"], { icon: LucideIcon; what: string }> = {
+  ADMIN: {
+    icon: ShieldCheck,
+    what: "Ve y maneja todo: pedidos, importes, agenda, catálogo y usuarios.",
+  },
+  COCINA: {
+    icon: ChefHat,
+    what: "Solo ve Producción y marca los pedidos como cocinando o listos.",
+  },
+};
 
 type Dialog = { kind: "create" } | { kind: "password"; user: UserRow } | null;
 
@@ -59,8 +82,27 @@ export function UsersManager({
 
   return (
     <div className="stack">
-      <div>
-        <Button onClick={() => setDialog({ kind: "create" })}>Nuevo usuario</Button>
+      <div className="pasto-roles">
+        {(Object.keys(ROLE_INFO) as UserRow["role"][]).map((role) => {
+          const info = ROLE_INFO[role];
+          const total = users.filter((u) => u.role === role && u.isActive).length;
+          return (
+            <div key={role} className="pasto-roles__item">
+              <span className="pasto-roles__icon">
+                <Icon icon={info.icon} size={22} />
+              </span>
+              <div className="stack" style={{ gap: 2 }}>
+                <b>
+                  {ROLE_LABEL[role]} <span className="muted num">· {total} activos</span>
+                </b>
+                <span className="body-sm muted">{info.what}</span>
+              </div>
+            </div>
+          );
+        })}
+        <Button onClick={() => setDialog({ kind: "create" })}>
+          <Icon icon={Plus} /> Nuevo usuario
+        </Button>
       </div>
 
       {error && !dialog && (
@@ -69,83 +111,88 @@ export function UsersManager({
         </Notice>
       )}
 
-      <Table label="Usuarios del staff">
-        <thead>
-          <tr>
-            <th scope="col">Persona</th>
-            <th scope="col">Rol</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Último ingreso</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((u) => {
-            const isSelf = u.id === currentUserId;
-            return (
-              <tr key={u.id}>
-                <td>
-                  <b>{u.fullName ?? u.email}</b>
-                  {u.fullName && <div className="caption">{u.email}</div>}
-                </td>
-                <td>
-                  {isSelf ? (
-                    ROLE_LABEL[u.role]
-                  ) : (
-                    <SelectField
-                      label={`Rol de ${u.email}`}
-                      value={u.role}
-                      disabled={pending}
-                      onChange={(e) =>
-                        run(
-                          () => setUserRoleAction({ userId: u.id, role: e.target.value }),
-                          "Rol actualizado",
-                        )
-                      }
-                    >
-                      <option value="ADMIN">{ROLE_LABEL.ADMIN}</option>
-                      <option value="COCINA">{ROLE_LABEL.COCINA}</option>
-                    </SelectField>
-                  )}
-                </td>
-                <td>
-                  <Tag tone={u.isActive ? "brand" : "outline"}>
-                    {u.isActive ? "Activo" : "De baja"}
-                  </Tag>
-                </td>
-                <td>{u.lastLogin ?? "Nunca"}</td>
-                <td>
-                  <div className="row">
-                    <Button
-                      small
-                      variant="secondary"
-                      disabled={pending}
-                      onClick={() => setDialog({ kind: "password", user: u })}
-                    >
-                      Nueva contraseña
-                    </Button>
-                    {!isSelf && (
-                      <Button
-                        small
-                        variant="ghost"
-                        disabled={pending}
-                        onClick={() =>
-                          run(
-                            () => setUserActiveAction({ userId: u.id, active: !u.isActive }),
-                            u.isActive ? "Usuario dado de baja" : "Usuario reactivado",
-                          )
-                        }
-                      >
-                        {u.isActive ? "Dar de baja" : "Reactivar"}
-                      </Button>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      <ul className="pasto-users">
+        {users.map((u) => {
+          const isSelf = u.id === currentUserId;
+          const roleIcon = ROLE_INFO[u.role].icon;
+          return (
+            <li key={u.id} className={u.isActive ? "pasto-user" : "pasto-user is-off"}>
+              <div className="pasto-user__top">
+                <span className="pasto-avatar pasto-user__avatar" aria-hidden="true">
+                  {(u.fullName ?? u.email).trim().charAt(0).toUpperCase()}
+                </span>
+                <div className="pasto-user__who">
+                  <b>
+                    {u.fullName ?? u.email}
+                    {isSelf && <span className="pasto-youtag">Vos</span>}
+                  </b>
+                  {u.fullName && <span className="caption muted">{u.email}</span>}
+                </div>
+                <Status
+                  tone={u.isActive ? "verde" : "hollow"}
+                  tag={u.isActive ? "brand" : "outline"}
+                >
+                  {u.isActive ? "Activo" : "De baja"}
+                </Status>
+              </div>
+
+              <ul className="pasto-user__facts caption">
+                <li>
+                  <Icon icon={roleIcon} size={14} /> {ROLE_LABEL[u.role]}
+                </li>
+                <li>
+                  <Icon icon={Clock} size={14} />{" "}
+                  {u.lastLogin ? `Último ingreso ${u.lastLogin}` : "Todavía no ingresó"}
+                </li>
+              </ul>
+
+              {!isSelf && (
+                <SelectField
+                  label={`Rol de ${u.email}`}
+                  value={u.role}
+                  disabled={pending}
+                  onChange={(e) =>
+                    run(
+                      () => setUserRoleAction({ userId: u.id, role: e.target.value }),
+                      "Rol actualizado",
+                    )
+                  }
+                >
+                  <option value="ADMIN">{ROLE_LABEL.ADMIN}</option>
+                  <option value="COCINA">{ROLE_LABEL.COCINA}</option>
+                </SelectField>
+              )}
+
+              <div className="row">
+                <Button
+                  small
+                  variant="secondary"
+                  disabled={pending}
+                  onClick={() => setDialog({ kind: "password", user: u })}
+                >
+                  <Icon icon={KeyRound} size={16} /> Nueva contraseña
+                </Button>
+                {!isSelf && (
+                  <Button
+                    small
+                    variant="ghost"
+                    disabled={pending}
+                    onClick={() =>
+                      run(
+                        () => setUserActiveAction({ userId: u.id, active: !u.isActive }),
+                        u.isActive ? "Usuario dado de baja" : "Usuario reactivado",
+                      )
+                    }
+                  >
+                    <Icon icon={u.isActive ? UserX : UserCheck} size={16} />{" "}
+                    {u.isActive ? "Dar de baja" : "Reactivar"}
+                  </Button>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
 
       <Modal open={dialog?.kind === "create"} onClose={close} title="Nuevo usuario">
         <TextField
@@ -187,7 +234,7 @@ export function UsersManager({
             disabled={pending}
             onClick={() => run(() => createUserAction(form), "Usuario creado", close)}
           >
-            Crear usuario
+            <Icon icon={UserPlus} /> Crear usuario
           </Button>
           <Button variant="ghost" onClick={close}>
             Volver
@@ -225,7 +272,7 @@ export function UsersManager({
               )
             }
           >
-            Guardar contraseña
+            <Icon icon={Save} /> Guardar contraseña
           </Button>
           <Button variant="ghost" onClick={close}>
             Volver
