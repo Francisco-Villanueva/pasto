@@ -42,14 +42,21 @@ export function createRateLimiter(
 }
 
 const globalForLimits = globalThis as unknown as {
-  __pastoLimits?: { orders: RateLimiter; address: RateLimiter };
+  __pastoLimits?: {
+    orders: RateLimiter;
+    address: RateLimiter;
+    login: RateLimiter;
+    survey: RateLimiter;
+  };
 };
 
-/** Limitadores compartidos por el proceso. Pedidos: 10 cada 10 min por IP. Direcciones: 40 por minuto. */
+/** Limitadores compartidos por el proceso. Pedidos: 10 cada 10 min por IP. Direcciones: 40 por minuto. Ingreso del staff: 10 cada 15 min por IP. Encuesta: 60 guardados cada 10 min por IP. */
 export function limiters() {
   globalForLimits.__pastoLimits ??= {
     orders: createRateLimiter(10, 10 * 60_000),
     address: createRateLimiter(40, 60_000),
+    login: createRateLimiter(10, 15 * 60_000),
+    survey: createRateLimiter(60, 10 * 60_000),
   };
   return globalForLimits.__pastoLimits;
 }

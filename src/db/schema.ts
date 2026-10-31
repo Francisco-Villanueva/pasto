@@ -61,9 +61,61 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 255 }).notNull().unique(),
   passwordHash: varchar("password_hash", { length: 255 }).notNull(),
   role: userRole("role").notNull(),
+  fullName: varchar("full_name", { length: 120 }),
   isActive: boolean("is_active").notNull().default(true),
+  /** Intentos fallidos seguidos. Al llegar al límite la cuenta se bloquea un rato (`locked_until`). */
+  failedLoginCount: integer("failed_login_count").notNull().default(0),
+  lockedUntil: timestamp("locked_until", { withTimezone: true }),
+  lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
   createdAt: createdAt(),
 });
+
+/**
+ * Sesiones del staff. En la base va solo el hash del token (el token real vive en la cookie), así que
+ * una filtración de la tabla no permite entrar. Se pueden revocar: desactivar a un usuario las invalida.
+ */
+export const staffSessions = pgTable(
+  "staff_sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    tokenHash: varchar("token_hash", { length: 64 }).notNull().unique(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("staff_sessions_user_idx").on(t.userId)],
+);
+
+/**
+ * Cuenta de cliente con Google. El email llega verificado por Google: con él se reconocen los
+ * pedidos hechos como invitado. No tiene contraseña ni teléfono (el teléfono se pide en cada pedido).
+ */
+export const customerAccounts = pgTable("customer_accounts", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  /** Identificador estable de la persona en Google (`sub`); el email puede cambiar. */
+  googleSub: varchar("google_sub", { length: 255 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).notNull(),
+  fullName: varchar("full_name", { length: 255 }),
+  createdAt: createdAt(),
+  lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+});
+
+/** Sesiones de clientes. Igual que las del staff: en la base va solo el hash del token. */
+export const customerSessions = pgTable(
+  "customer_sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    accountId: uuid("account_id")
+      .notNull()
+      .references(() => customerAccounts.id, { onDelete: "cascade" }),
+    tokenHash: varchar("token_hash", { length: 64 }).notNull().unique(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("customer_sessions_account_idx").on(t.accountId)],
+);
 
 export const customers = pgTable(
   "customers",

@@ -11,26 +11,26 @@ Next.js en **Vercel**, base de datos en **Neon** (proyecto `withered-snow-705572
 
 ## 2. Variables de entorno
 
-| Variable | Obligatoria | Para qué |
-| --- | --- | --- |
-| `DATABASE_URL` | Sí | Conexión **con pooler** de Neon (host con `-pooler`). La usa la app. |
-| `DATABASE_URL_UNPOOLED` | Para migrar | Conexión **directa** de Neon. La usa `drizzle-kit` en tu máquina; no hace falta en Vercel. |
-| `APP_URL` | Sí | URL pública, ej. `https://pasto.vercel.app`. |
-| `TURNSTILE_SECRET_KEY` | **Sí en producción** | Sin ella el servidor rechaza todos los pedidos (a propósito). |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Sí en producción | Clave pública del captcha. |
-| `GOOGLE_MAPS_SERVER_KEY` | Recomendada | Autocompletado y distancia por calle (Places y Routes). Sin ella el envío queda "a confirmar". |
-| `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Fase 5 y 7 | Sesiones del staff y Google para clientes. |
-| `STORAGE_*` | Fase 7 | Fotos de platos (almacenamiento compatible con S3). |
-| `CRON_SECRET` | Fase 5 | Protege la tarea que cancela pedidos abandonados. |
+| Variable                                              | Obligatoria          | Para qué                                                                                                                                                     |
+| ----------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `DATABASE_URL`                                        | Sí                   | Conexión **con pooler** de Neon (host con `-pooler`). La usa la app.                                                                                         |
+| `DATABASE_URL_UNPOOLED`                               | Para migrar          | Conexión **directa** de Neon. La usa `drizzle-kit` en tu máquina; no hace falta en Vercel.                                                                   |
+| `APP_URL`                                             | Sí                   | URL pública, ej. `https://pasto.vercel.app`.                                                                                                                 |
+| `TURNSTILE_SECRET_KEY`                                | **Sí en producción** | Sin ella el servidor rechaza todos los pedidos (a propósito).                                                                                                |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY`                      | Sí en producción     | Clave pública del captcha.                                                                                                                                   |
+| `GOOGLE_MAPS_SERVER_KEY`                              | Recomendada          | Autocompletado y distancia por calle (Places y Routes). Sin ella el envío queda "a confirmar".                                                               |
+| `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Fase 7               | Google para clientes (`AUTH_SECRET` no se usa hoy). Redirect URI autorizada: `APP_URL/api/cuenta/google/callback`. El staff usa sesiones propias en la base. |
+| `STORAGE_*`                                           | Fase 7               | Fotos de platos (almacenamiento compatible con S3).                                                                                                          |
+| `CRON_SECRET`                                         | Fase 5               | Obligatorio: protege `/api/cron/abandoned-orders` (Vercel Cron, cada hora). Sin él la tarea no corre.                                                        |
 
 Nunca subas `.env.local`: está en `.gitignore`. Las claves se cargan en Vercel, no en el repo.
 
 ## Ramas de Neon
 
-| Rama | Contenido | Se usa en |
-| --- | --- | --- |
-| `production` | Solo el esquema. Sin catálogo ni ajustes hasta cargar los datos reales. | Vercel **Production** |
-| `staging` | Esquema, catálogo de ejemplo, agenda y un WhatsApp **falso** (`+5490000000000`). | Vercel **Preview** y pruebas |
+| Rama         | Contenido                                                                        | Se usa en                    |
+| ------------ | -------------------------------------------------------------------------------- | ---------------------------- |
+| `production` | Solo el esquema. Sin catálogo ni ajustes hasta cargar los datos reales.          | Vercel **Production**        |
+| `staging`    | Esquema, catálogo de ejemplo, agenda y un WhatsApp **falso** (`+5490000000000`). | Vercel **Preview** y pruebas |
 
 Las cadenas de conexión de `staging` están en `.env.staging.local` (ignorado por Git). La agenda de ejemplo cubre unas 6 semanas desde la carga; después hay que generar más días (lo hará el backoffice en la Fase 5).
 
@@ -52,6 +52,16 @@ INSERT INTO settings (key, value) VALUES
   ('fudo_url', '"https://..."')
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
 ```
+
+### Primer usuario del staff
+
+El backoffice (`/admin`) no tiene registro público. El primer administrador se crea por línea de comandos, apuntando a la base que corresponda (la contraseña se pide por pantalla y no se muestra):
+
+```bash
+npm run staff:create ana@pasto.com ADMIN "Ana"
+```
+
+Para `staging`, anteponé `DATABASE_URL=<cadena de staging>`. Los usuarios de prueba (`admin@pasto.test`…) existen **solo** con `npm run dev:local`.
 
 `npm run db:seed` carga el catálogo, los precios, los tramos de envío y la agenda **de ejemplo**. Sirve para una base de prueba (staging); para producción, cargá los platos y precios reales.
 

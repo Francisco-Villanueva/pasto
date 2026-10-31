@@ -267,6 +267,17 @@
   line-height: 44px;
   font-variant-numeric: tabular-nums;
 }
+/* En el backoffice los números se leen de un vistazo: tipografía de texto, no la de marca. */
+.pasto-admin .pasto-stat__value {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+}
+.pasto-admin .pasto-stat--sm .pasto-stat__value {
+  font-size: 28px;
+  line-height: 32px;
+}
 
 /* ---- Tabla ---- */
 .pasto-table-wrap {
@@ -825,5 +836,20 @@
   /* Con la barra inferior, la cabecera queda con el logo y el tema */
   .v-header .pasto-nav a {
     display: none;
+  }
+}
+
+/* Impresión (hoja de producción): sin menú ni botones, en blanco y negro */
+@media print {
+  .pasto-side,
+  .no-print {
+    display: none !important;
+  }
+  .pasto-admin {
+    display: block;
+  }
+  body {
+    background: #fff;
+    color: #000;
   }
 }

@@ -113,3 +113,13 @@ export function formatCutoff(cutoffAt: Date): string {
     .setLocale("es-AR")
     .toFormat("cccc 'a las' HH:mm");
 }
+
+/** "mié 04/11" para cualquier fecha (a diferencia de `formatDeliveryDay`, no exige miércoles o viernes). */
+export function formatShortDate(date: string): string {
+  return parseDate(date).setLocale("es-AR").toFormat("ccc dd/LL").replace(".", "");
+}
+
+/** "30/10 14:54" en hora de Buenos Aires, para el historial. */
+export function formatDateTime(instant: Date): string {
+  return DateTime.fromJSDate(instant, { zone: TIME_ZONE }).toFormat("dd/LL HH:mm");
+}

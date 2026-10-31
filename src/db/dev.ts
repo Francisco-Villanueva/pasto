@@ -1,7 +1,24 @@
 import path from "node:path";
+import { createStaffUser } from "../server/auth/users";
+import { seedDemoOrders } from "./dev-orders";
 import { seedDatabase } from "./seed";
 import { settings } from "./schema";
 import type { AppDb } from "./types";
+
+export const DEV_STAFF = [
+  {
+    email: "admin@pasto.test",
+    password: "admin-dev-1234",
+    role: "ADMIN",
+    fullName: "Admin de prueba",
+  },
+  {
+    email: "cocina@pasto.test",
+    password: "cocina-dev-1234",
+    role: "COCINA",
+    fullName: "Cocina de prueba",
+  },
+] as const;
 
 /**
  * Base de datos de DESARROLLO, en memoria (PGlite): con ella se puede usar toda la app sin
@@ -22,6 +39,16 @@ export async function createDevDb(): Promise<AppDb> {
     .insert(settings)
     .values({ key: "pasto_whatsapp", value: "+5490000000000" })
     .onConflictDoNothing();
+
+  // Usuarios de staff FALSOS, solo para probar el backoffice en desarrollo.
+  for (const user of DEV_STAFF) await createStaffUser(db as unknown as AppDb, user);
+
+  // Pedidos de ejemplo para tener qué mirar en el backoffice. Si algo falla no se corta el arranque.
+  try {
+    await seedDemoOrders(db as unknown as AppDb);
+  } catch (error) {
+    console.warn("No se pudieron crear los pedidos de ejemplo:", error);
+  }
 
   return db as unknown as AppDb;
 }

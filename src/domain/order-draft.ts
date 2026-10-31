@@ -2,8 +2,8 @@ import { cartIssues, type Cart, type CartIssue } from "./cart";
 import type { Catalog, ProductCategory } from "./catalog";
 import type { Cents } from "./money";
 import { priceCart } from "./pricing";
-import { isDayAvailable, type DeliveryDayConfig } from "./schedule";
-import { computeDeliveryFee, type ShippingConfig } from "./shipping";
+import { isDayAvailable, localDate, type DeliveryDayConfig } from "./schedule";
+import { computeDeliveryFee, type DeliveryFee, type ShippingConfig } from "./shipping";
 
 export type DraftDetail = {
   productId: string;
@@ -46,6 +46,11 @@ export type DraftInput = {
   hasAddress: boolean;
   scheduledDate: string;
   timeSlot: string;
+  /**
+   * Costo de envío fijado a mano por la administración (por ejemplo, acordado por WhatsApp).
+   * Reemplaza al cálculo por distancia y no se rechaza por estar fuera del radio. Solo vale en envíos.
+   */
+  deliveryFeeOverrideCents?: Cents | null;
 };
 
 export type DraftContext = {
@@ -57,6 +62,11 @@ export type DraftContext = {
   shipping: ShippingConfig;
   /** Distancia por calle al local, medida por el servidor. Nula si no se pudo ubicar. */
   distanceM: number | null;
+  /**
+   * Pedido cargado o editado por la administración: puede ir a un día de la agenda aunque ya haya
+   * pasado el corte o esté cerrado (siempre que sea hoy o futuro). El cliente nunca tiene esta opción.
+   */
+  adminOverride?: boolean;
 };
 
 export type DraftResult = { ok: true; draft: OrderDraft } | { ok: false; errors: DraftError[] };
@@ -79,16 +89,27 @@ export function buildOrderDraft(input: DraftInput, ctx: DraftContext): DraftResu
 
   // Día y franja: tienen que estar abiertos en la agenda y antes del corte, a la hora de enviarlo.
   const day = ctx.days.find((d) => d.date === input.scheduledDate);
-  if (!day || !isDayAvailable(day, ctx.now)) errors.push({ code: "DAY_UNAVAILABLE" });
+  const dayOk = day
+    ? ctx.adminOverride
+      ? day.date >= localDate(ctx.now)
+      : isDayAvailable(day, ctx.now)
+    : false;
+  if (!day || !dayOk) errors.push({ code: "DAY_UNAVAILABLE" });
   else if (!day.slots.includes(input.timeSlot)) errors.push({ code: "SLOT_INVALID" });
 
   if (input.deliveryType === "DELIVERY" && !input.hasAddress)
     errors.push({ code: "ADDRESS_REQUIRED" });
 
-  const fee = computeDeliveryFee(
-    { deliveryType: input.deliveryType, distanceM: ctx.distanceM },
-    ctx.shipping,
-  );
+  const manualFee =
+    input.deliveryType === "DELIVERY" &&
+    input.deliveryFeeOverrideCents !== undefined &&
+    input.deliveryFeeOverrideCents !== null;
+  const fee: DeliveryFee = manualFee
+    ? { status: "CALCULATED", feeCents: input.deliveryFeeOverrideCents!, tierUpToM: 0 }
+    : computeDeliveryFee(
+        { deliveryType: input.deliveryType, distanceM: ctx.distanceM },
+        ctx.shipping,
+      );
   if (fee.status === "OUT_OF_RANGE") errors.push({ code: "OUT_OF_RANGE" });
 
   if (errors.length > 0 || !priced.ok) return { ok: false, errors };
@@ -130,7 +151,7 @@ export function buildOrderDraft(input: DraftInput, ctx: DraftContext): DraftResu
           : fee.status === "CALCULATED"
             ? "CALCULADO"
             : "A_CONFIRMAR",
-      deliveryDistanceM: input.deliveryType === "DELIVERY" ? ctx.distanceM : null,
+      deliveryDistanceM: input.deliveryType === "DELIVERY" && !manualFee ? ctx.distanceM : null,
       totalCents: priced.subtotalCents + (deliveryFeeCents ?? 0),
     },
   };

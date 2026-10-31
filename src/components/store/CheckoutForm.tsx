@@ -39,6 +39,10 @@ type Props = {
   mapsEnabled: boolean;
   storeAddress: string | null;
   turnstileSiteKey: string | null;
+  /** Cliente con sesión de Google: nombre y email vienen de su cuenta. */
+  account: { email: string; name: string | null } | null;
+  /** Se puede ofrecer "Continuar con Google". */
+  googleEnabled: boolean;
 };
 
 type Quote = {
@@ -58,6 +62,8 @@ export function CheckoutForm({
   mapsEnabled,
   storeAddress,
   turnstileSiteKey,
+  account,
+  googleEnabled,
 }: Props) {
   const router = useRouter();
   const ready = useCartReady();
@@ -76,9 +82,9 @@ export function CheckoutForm({
   const [date, setDate] = useState(days[0]?.date ?? "");
   const [slot, setSlot] = useState(days[0]?.slots[0] ?? "");
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(account?.name ?? "");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(account?.email ?? "");
   const [consent, setConsent] = useState(false);
   const [terms, setTerms] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
@@ -408,6 +414,18 @@ export function CheckoutForm({
 
           <section className="stack" aria-label="Tus datos">
             <span className="label">TUS DATOS</span>
+            {account ? (
+              <Notice role="status">
+                Ingresaste con Google como <strong>{account.email}</strong>. Este pedido va a quedar
+                en Mi cuenta.
+              </Notice>
+            ) : googleEnabled ? (
+              <div>
+                <Button variant="secondary" small href="/api/cuenta/google?next=/checkout">
+                  Continuar con Google
+                </Button>
+              </div>
+            ) : null}
             <div className="pasto-fields-2">
               <TextField
                 label="Nombre y apellido"
@@ -428,9 +446,10 @@ export function CheckoutForm({
               />
             </div>
             <TextField
-              label="Email (opcional)"
+              label={account ? "Email" : "Email (opcional)"}
               type="email"
               value={email}
+              readOnly={account !== null}
               autoComplete="email"
               error={errors["customer.email"]}
               onChange={(e) => setEmail(e.target.value)}

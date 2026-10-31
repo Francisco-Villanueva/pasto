@@ -22,10 +22,10 @@ Next.js (App Router) + TypeScript, PostgreSQL en Neon con Drizzle, Zod, Auth.js,
 
 Desde la raíz del repo:
 
-- `npm run dev` · `npm run build`
+- `npm run dev` (usa la base de `.env.local`: **Neon**) · `npm run dev:local` (base **en memoria**, sin tocar datos reales; es lo que usan Playwright y la vista previa) · `npm run build`
 - `npm run lint` · `npm run typecheck` · `npm run format:check`
 - `npm test` (Vitest, reglas de dominio) · `npm run e2e` (Playwright)
-- `npm run db:generate` · `npm run db:migrate` · `npm run db:seed` (catálogo de ejemplo)
+- `npm run db:generate` · `npm run db:migrate` · `npm run db:seed` (catálogo de ejemplo) · `npm run staff:create <email> ADMIN|COCINA "Nombre"` (alta de un usuario del staff)
 
 ## Dominio y base de datos
 
@@ -38,6 +38,10 @@ Desde la raíz del repo:
 - `src/server/`: servicios del servidor (`orders.ts` crea el pedido en una transacción, `maps.ts`, `turnstile.ts`, `rate-limit.ts`, `checkout-data.ts`, `order-view.ts`). `src/app/api/`: `orders/preliminary`, `address/suggest`, `address/quote`.
 - El pedido se arma en `domain/order-draft.ts`: el navegador **nunca** manda precios ni envío; el servidor recalcula todo (catálogo, tramos, agenda, corte). El esquema compartido está en `src/lib/checkout-schema.ts`.
 - La página del pedido (`/pedido/:token`) se abre con `orders.access_token`, no con el número de pedido (adivinable).
+- **Backoffice**: `src/domain/permissions.ts` define qué puede hacer cada rol (única fuente: menú, páginas, acciones y API). Sesiones propias en la base (`staff_sessions`, solo el hash del token; 12 h; revocables), contraseñas con argon2id, bloqueo de 15 min tras 5 fallos y límite por IP (`src/server/auth/`). Toda página, acción o ruta del backoffice pasa por `requireStaff(capacidad)` / `authorizeApi(capacidad)` (`src/server/auth/dal.ts`); el `proxy.ts` solo hace un chequeo optimista. Usuarios de desarrollo (solo con `dev:local`): `admin@pasto.test` / `admin-dev-1234` y `cocina@pasto.test` / `cocina-dev-1234`.
+- **Operación**: `src/server/production.ts` (hoja de producción sin importes), `admin-agenda.ts` (días, franjas, tramos, radio y plazo de abandono; completa solas las próximas 8 semanas), `dashboard.ts` y `abandonment.ts` (cancela PRELIMINAR vencidos; lo llama el cron `src/app/api/cron/abandoned-orders/route.ts` con `CRON_SECRET`, programado en `vercel.json`). Reglas de validación de la agenda en `domain/agenda.ts`.
+- **Seguimiento y encuestas**: `src/server/crm.ts` (tareas D+5/D+12: hoy, próximas, hechas; completar u omitir con motivo) y `survey.ts` (la encuesta se abre con `orders.survey_token`; solo platos de packs; la versión de receta sale del pedido, nunca del navegador). Reglas, validación, promedios y plantillas de WhatsApp en `domain/survey.ts`. La encuesta pública es `src/app/evaluacion/[token]`.
+- **Cuenta del cliente y catálogo**: `src/server/customer-auth.ts` (cuentas por `sub` de Google y sesiones de 30 días con hash en la base; cookie `pasto_cuenta`), `google.ts` (URL de autorización con PKCE, intercambio del código; sin credenciales solo hay ingreso de prueba en desarrollo), `customer-dal.ts` (`getCustomer()`), `account.ts` (pedidos por email verificado y Repetir pedido) y las rutas `src/app/api/cuenta/google`. Reglas en `domain/google-oidc.ts`. `admin-catalog.ts` y `domain/catalog-admin.ts` (formulario de plato, importes en pesos, precios por tamaño) alimentan `/admin/catalogo`; `staff-users.ts` alimenta `/admin/usuarios`.
 
 ## Interfaz
 

@@ -18,7 +18,7 @@ export default defineConfig({
   ],
   webServer: {
     // Modo desarrollo: base en memoria, WhatsApp falso y direcciones simuladas (sin servicios externos).
-    command: `npm run dev -- -p ${PORT}`,
+    command: `npm run dev:local -- -p ${PORT}`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

@@ -3,7 +3,9 @@ import {
   addDays,
   defaultCutoff,
   formatCutoff,
+  formatDateTime,
   formatDeliveryDay,
+  formatShortDate,
   generateDeliveryDays,
   getAvailableDeliveryDays,
   localDate,
@@ -133,5 +135,18 @@ describe("fechas locales", () => {
 
   it("la fecha local de las 23:30 en Buenos Aires es el mismo día aunque en UTC ya sea el siguiente", () => {
     expect(localDate(new Date("2026-11-04T23:30:00-03:00"))).toBe("2026-11-04");
+  });
+});
+
+describe("fechas para el backoffice", () => {
+  it("formatShortDate sirve para cualquier día de la semana", () => {
+    expect(formatShortDate("2026-11-04")).toBe("mié 04/11");
+    expect(formatShortDate("2026-11-06")).toBe("vie 06/11");
+    expect(formatShortDate("2026-11-03")).toBe("mar 03/11");
+  });
+
+  it("formatDateTime usa la hora de Buenos Aires", () => {
+    expect(formatDateTime(new Date("2026-10-30T14:54:00-03:00"))).toBe("30/10 14:54");
+    expect(formatDateTime(new Date("2026-10-30T23:30:00-03:00"))).toBe("30/10 23:30");
   });
 });

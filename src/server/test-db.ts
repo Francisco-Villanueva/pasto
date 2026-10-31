@@ -31,3 +31,10 @@ export async function productIds(db: AppDb): Promise<(sku: string) => string> {
     return product.id;
   };
 }
+
+/** Postgres en memoria con las migraciones y nada más (sin catálogo ni ajustes). */
+export async function createBareDb(): Promise<AppDb> {
+  const db = drizzle(new PGlite());
+  await migrate(db, { migrationsFolder: path.join(process.cwd(), "drizzle") });
+  return db as unknown as AppDb;
+}
