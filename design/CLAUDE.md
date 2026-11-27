@@ -12,14 +12,14 @@ Esta carpeta es la fuente de verdad visual de la app. Antes de construir o cambi
 ## Reglas visuales
 - Escribí PASTO en mayúsculas en texto corrido; la línea de producto es Meal Prep. El logo PASTO | Meal Prep se usa siempre desde `design/assets/logos/`, nunca armado con la fuente.
 - Versión clara sobre crema; versión `-oscuro` sobre `noche-900`, `verde` o `bordo`.
-- Fuente display (Gabriel Weiss) solo en titulares de 32px o más, con interletrado 0. No tiene ñ, í, Í ni Ñ: para esos textos usá `heading`.
+- Fuente display (Obviously Narrow, `--font-display`) solo en titulares de 32px o más, en Black (900) con interletrado 0. Tiene ñ y tildes. Medium (500) y Super (950) también están cargadas.
 - Todo lo demás en Hanken Grotesk. Rótulos en MAYÚSCULAS con tracking amplio (`label`).
 - Mostaza es un acento de relleno, no un color de texto sobre crema. Para bordes, íconos y texto de acento usá `accent-ink`. Texto sobre mostaza y celeste en `on-accent` / `on-cold` (bordó).
 - Celeste significa frío y conservación (freezer).
 - Un solo botón `primary` por vista. No hay botón mostaza.
 - Esquinas redondeadas (`radius-md`, `radius-lg`, `radius-pill`), nada en ángulo recto.
-- Sin sombras ni degradés: la profundidad viene de bloques planos de color.
-- Las tipografías de la nueva marca (Obviously y Sofia Pro Narrow) todavía no están integradas: se mantienen Gabriel Weiss y Hanken Grotesk hasta tener las licencias.
+- Sin sombras ni degradés: la profundidad viene de bloques planos de color. Única excepción: en el celular, el video de la portada se funde con la tela con una máscara degradada.
+- Obviously Narrow ya está integrada para titulares. Sofia Pro Narrow todavía no: el texto sigue en Hanken Grotesk hasta tener la licencia.
 - Sin emojis. Textos en español rioplatense.
 - Foco visible: anillo de 2px con `var(--focus-ring)`.
 - El estado de un pedido se marca con punto y rótulo, nunca solo con color.

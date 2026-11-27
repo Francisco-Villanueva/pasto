@@ -4,7 +4,9 @@
    - Automático: sigue prefers-color-scheme.
    - Manual: <html data-theme="arena"> o <html data-theme="carbon">. */
 
-@font-face { font-family: "Gabriel Weiss"; src: url("../fonts/GabrielWeiss-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Obviously Narrow"; src: url("../fonts/ObviouslyNarrow-Medium.otf") format("opentype"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Obviously Narrow"; src: url("../fonts/ObviouslyNarrow-Black.otf") format("opentype"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Obviously Narrow"; src: url("../fonts/ObviouslyNarrow-Super.otf") format("opentype"); font-weight: 950; font-display: swap; }
 @font-face { font-family: "Hanken Grotesk"; src: url("../fonts/HankenGrotesk-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 
 :root {
@@ -44,7 +46,7 @@
   --radius-md: 16px;
   --radius-lg: 28px;
   --radius-pill: 999px;
-  --font-display: "Gabriel Weiss", "Hanken Grotesk", system-ui, sans-serif;
+  --font-display: "Obviously Narrow", "Hanken Grotesk", system-ui, sans-serif;
   --font-sans: "Hanken Grotesk", system-ui, sans-serif;
   color-scheme: light;
 }
@@ -76,9 +78,9 @@
 }
 
 /* Estilos de texto (clases utilitarias opcionales) */
-.t-display-xl{font-family:var(--font-display);font-size:72px;line-height:76px;font-weight:400;letter-spacing:0;}
-.t-display-lg{font-family:var(--font-display);font-size:48px;line-height:52px;font-weight:400;letter-spacing:0;}
-.t-display-md{font-family:var(--font-display);font-size:32px;line-height:38px;font-weight:400;letter-spacing:0;}
+.t-display-xl{font-family:var(--font-display);font-size:72px;line-height:76px;font-weight:900;letter-spacing:0;}
+.t-display-lg{font-family:var(--font-display);font-size:48px;line-height:52px;font-weight:900;letter-spacing:0;}
+.t-display-md{font-family:var(--font-display);font-size:32px;line-height:38px;font-weight:900;letter-spacing:0;}
 .t-label{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;}
 .t-heading{font-family:var(--font-sans);font-size:24px;line-height:30px;font-weight:700;letter-spacing:normal;}
 .t-title{font-family:var(--font-sans);font-size:18px;line-height:24px;font-weight:700;letter-spacing:normal;}

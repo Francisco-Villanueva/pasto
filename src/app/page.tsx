@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, ChefHat, Flame, MessageCircle, Truck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button, Wave } from "@design/react";
 import { PublicShell } from "@/components/layout/PublicShell";
+import { HeroVideo } from "@/components/store/HeroVideo";
 import { Icon } from "@/components/ui";
 import { loadStoreCatalog, loadStoreSettings } from "@/db/catalog";
 import { formatMoney } from "@/domain/money";
@@ -41,26 +42,23 @@ const PACKS = [
   },
 ] as const;
 
-const GUARANTEES = [
-  { icon: ChefHat, title: "Cocina propia", text: "Cada plato sale de la cocina de PASTO." },
-  {
-    icon: Flame,
-    title: "Macros a la vista",
-    text: "Calorías, proteínas, carbohidratos y grasas por plato.",
-  },
-  { icon: Truck, title: "Entrega o retiro", text: "Elegís cómo recibirlo y en qué horario." },
-  {
-    icon: MessageCircle,
-    title: "Una persona confirma",
-    text: "PASTO te escribe por WhatsApp antes de cocinar.",
-  },
-] as const;
-
 const STEPS = [
-  { title: "Armás tu pack", text: "Elegís los platos y la cantidad exacta de cada uno." },
-  { title: "Elegís día y forma", text: "Entrega a domicilio o retiro, con horario." },
-  { title: "Enviás el pedido", text: "Se abre WhatsApp con el detalle ya escrito." },
-  { title: "PASTO confirma", text: "Revisa stock, horario y forma de pago con vos." },
+  {
+    title: "Armás tu pack",
+    text: "Elegís los platos y la cantidad exacta de cada uno.",
+  },
+  {
+    title: "Elegís día y forma",
+    text: "Entrega a domicilio o retiro, con horario.",
+  },
+  {
+    title: "Enviás el pedido",
+    text: "Se abre WhatsApp con el detalle ya escrito.",
+  },
+  {
+    title: "PASTO confirma",
+    text: "Revisa stock, horario y forma de pago con vos.",
+  },
 ] as const;
 
 const FAQ = [
@@ -129,13 +127,7 @@ export default async function Home() {
             </div>
 
             <div className="ld-hero__media">
-              {/* eslint-disable-next-line @next/next/no-img-element -- recorte estático de las maquetas de marca */}
-              <img
-                src="/imagery/pasto-bowl.jpg"
-                alt="Bowl de PASTO con vegetales, legumbres y zanahoria, con la etiqueta de la marca"
-                width={785}
-                height={713}
-              />
+              <HeroVideo />
               {delivery && (
                 <div className="ld-window" role="note">
                   <span className="ld-window__dot" aria-hidden="true" />
@@ -147,21 +139,6 @@ export default async function Home() {
               )}
             </div>
           </div>
-        </section>
-
-        {/* Garantías */}
-        <section className="wrap ld-section" aria-label="Cómo trabaja PASTO">
-          <ul className="ld-guarantees">
-            {GUARANTEES.map((item) => (
-              <li key={item.title}>
-                <span className="ld-guarantees__icon">
-                  <Icon icon={item.icon} size={22} />
-                </span>
-                <h2 className="title">{item.title}</h2>
-                <p className="body-sm muted">{item.text}</p>
-              </li>
-            ))}
-          </ul>
         </section>
 
         {/* Packs */}
@@ -285,46 +262,6 @@ export default async function Home() {
                 </li>
               ))}
             </ol>
-          </div>
-        </section>
-
-        {/* Marca */}
-        <section className="wrap ld-section ld-brand" aria-labelledby="marca-title">
-          <div className="ld-brand__text">
-            <h2 id="marca-title" className="display-lg">
-              Hecho en cocina propia
-            </h2>
-            <p>
-              PASTO cocina viandas, burritos y complementos para que comer bien durante la semana no
-              dependa de tu tiempo. Todo llega en packaging de la marca, listo para guardar y
-              calentar.
-            </p>
-          </div>
-          <div className="ld-brand__photos">
-            {/* eslint-disable @next/next/no-img-element -- recortes estáticos de las maquetas de marca */}
-            <img
-              className="ld-brand__wide"
-              src="/imagery/pasto-delantal.jpg"
-              alt="Delantal verde con el logo de PASTO"
-              width={1600}
-              height={880}
-              loading="lazy"
-            />
-            <img
-              src="/imagery/pasto-bolsa.jpg"
-              alt="Bolsa de PASTO para llevar el pedido"
-              width={806}
-              height={720}
-              loading="lazy"
-            />
-            <img
-              src="/imagery/pasto-caja.jpg"
-              alt="Caja de PASTO con el logo"
-              width={749}
-              height={752}
-              loading="lazy"
-            />
-            {/* eslint-enable @next/next/no-img-element */}
           </div>
         </section>
 

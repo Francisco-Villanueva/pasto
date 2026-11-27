@@ -11,7 +11,7 @@ test.describe("sistema de diseño", () => {
     const fonts = await page.evaluate(async () => {
       await document.fonts.ready;
       return {
-        display: document.fonts.check('32px "Gabriel Weiss"'),
+        display: document.fonts.check('900 32px "Obviously Narrow"'),
         sans: document.fonts.check('16px "Hanken Grotesk"'),
       };
     });

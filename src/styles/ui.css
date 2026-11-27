@@ -262,7 +262,7 @@
 }
 .pasto-stat__value {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 900;
   font-size: 40px;
   line-height: 44px;
   font-variant-numeric: tabular-nums;

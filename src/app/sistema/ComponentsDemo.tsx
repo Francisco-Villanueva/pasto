@@ -71,7 +71,7 @@ export function ComponentsDemo() {
       </Section>
 
       <Section title="Tipografía">
-        <p className="display-md">Display Gabriel Weiss</p>
+        <p className="display-md">Display Obviously Narrow</p>
         <Wave />
         <p className="heading">Heading en Hanken Grotesk</p>
         <p className="title">Title</p>

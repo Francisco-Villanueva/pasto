@@ -31,8 +31,7 @@ El logo es **PASTO | Meal Prep**: el wordmark manuscrito de PASTO, un filete ver
 
 ## Tipografía
 
-- **Gabriel Weiss' Font** (`--font-display`), Regular, **interletrado 0**. Solo para titulares: `display-xl`, `display-lg`, `display-md`. Nunca por debajo de 32px ni en párrafos.
-- La fuente display no tiene **ñ, í, Í ni Ñ**: esas letras caen a Hanken Grotesk y se notan. Evitá titulares con esas letras o pasalos a `heading`.
+- **Obviously Narrow** (`--font-display`), **Black (900)**, **interletrado 0**. Solo para titulares: `display-xl`, `display-lg`, `display-md`. Nunca por debajo de 32px ni en párrafos. También están cargadas Medium (500) y Super (950).
 - **Hanken Grotesk** (`--font-sans`) para todo lo demás: es la versión abierta de HK Grotesk, la familia que usa el manual para sus rótulos y notas. Texto corrido en `body` (Medium 500); rótulos en `label` (Bold, MAYÚSCULAS, tracking 0.3em).
 - Escala: `display-xl` 72 · `display-lg` 48 · `display-md` 32 · `heading` 24 · `title` 18 · `body` 16 · `body-sm` 14 · `caption` 12 / `label` 12.
 

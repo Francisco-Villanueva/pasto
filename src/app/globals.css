@@ -39,7 +39,7 @@ p {
 /* Texto */
 .display-xl {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 900;
   font-size: clamp(44px, 8vw, 72px);
   line-height: 1.05;
   letter-spacing: 0;
@@ -47,7 +47,7 @@ p {
 }
 .display-lg {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 900;
   font-size: clamp(36px, 6vw, 48px);
   line-height: 1.08;
   letter-spacing: 0;
@@ -55,7 +55,7 @@ p {
 }
 .display-md {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 900;
   font-size: 32px;
   line-height: 38px;
   letter-spacing: 0;

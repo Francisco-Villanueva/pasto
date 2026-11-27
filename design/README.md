@@ -7,7 +7,7 @@ Todo lo necesario para construir la app de PASTO con su identidad: tokens, fuent
 | Carpeta | Qué hay |
 | --- | --- |
 | `tokens/` | `tokens.json` (fuente de verdad), `tokens.css` (generado) y `pasto.css` (el único import que necesita la app) |
-| `fonts/` | Gabriel Weiss (titulares) y Hanken Grotesk (todo lo demás) |
+| `fonts/` | Obviously Narrow (titulares: Medium, Black y Super) y Hanken Grotesk (todo lo demás) |
 | `assets/logos/` | Las cinco versiones del logo |
 | `assets/imagery/` | Imágenes del manual de marca |
 | `components/` | `bundle.css`, los estilos de Button, Tag y Card |

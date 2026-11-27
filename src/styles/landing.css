@@ -43,13 +43,38 @@
   margin-bottom: var(--space-8);
   position: relative;
 }
-.ld-hero__media img {
+.ld-hero__video {
+  position: relative;
+}
+.ld-hero__video video {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
   border-radius: var(--radius-lg);
+  background: var(--noche-800);
+}
+.ld-hero__video-toggle {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--crema);
+  color: var(--tinta);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ld-hero__video-toggle:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 .ld-window {
   position: absolute;
@@ -489,15 +514,23 @@
 
 /* ---- Celular: la portada ocupa toda la pantalla y se queda solo con lo esencial ---- */
 @media (max-width: 720px) {
+  /* El texto va arriba y el video ocupa la mitad de abajo, detrás, fundiéndose con la tela. */
   .ld-hero {
+    position: relative;
+    overflow: hidden;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     min-height: 100svh;
-    padding-block: 96px var(--space-12);
+    padding-block: 96px 45svh;
   }
   .ld-hero__grid {
     width: 100%;
     gap: var(--space-6);
+  }
+  .ld-hero__copy,
+  .ld-window {
+    position: relative;
+    z-index: 1;
   }
   .ld-hero__copy {
     gap: var(--space-4);
@@ -510,13 +543,35 @@
     line-height: 24px;
   }
   .ld-hero__media {
+    position: static;
     margin-bottom: 0;
+    animation: none;
   }
-  .ld-hero__media img {
-    display: none;
+  .ld-hero__video {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 0;
+    height: 62%;
+  }
+  .ld-hero__video video {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
+    background: none;
+    /* Fundido: el video aparece de a poco desde la tela hacia abajo. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 55%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 55%);
+  }
+  .ld-hero__video-toggle {
+    top: auto;
+    bottom: var(--space-6);
+    right: var(--ld-gutter);
   }
   .ld-window {
-    position: static;
+    position: relative;
+    left: auto;
+    bottom: auto;
     max-width: none;
   }
   .ld-section {
