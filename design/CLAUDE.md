@@ -5,19 +5,21 @@ Esta carpeta es la fuente de verdad visual de la app. Antes de construir o cambi
 ## Cómo se usa
 - Importá una sola vez `design/tokens/pasto.css` en la raíz de la app (tokens, fuentes y componentes base).
 - Usá variables CSS (`var(--surface)`, `var(--ink)`, `var(--accent)`, `var(--space-4)`, `var(--radius-md)`) y nunca colores, radios ni espacios sueltos.
-- Preferí los tokens semánticos (`surface`, `surface-raised`, `ink`, `ink-muted`, `accent`, `border`) a los crudos (`verde`, `terracota`), así cada pieza funciona en los temas Arena y Carbón.
+- Preferí los tokens semánticos (`surface`, `surface-raised`, `ink`, `ink-muted`, `accent`, `border`) a los crudos (`verde`, `mostaza`), así cada pieza funciona en los temas claro y oscuro.
 - Los componentes base están en `design/react/` (Button, Tag, Card, Wave) sobre las clases `pasto-*`. Si falta uno, creá uno nuevo con los mismos tokens y documentalo en `docs/components/`.
 - Las pantallas de referencia están en `design/views/` (abrilas en el navegador). Las reglas de negocio están en `especifaciones.md`.
 
 ## Reglas visuales
-- Escribí PASTO en mayúsculas en texto corrido. El logo se usa siempre desde `design/assets/logos/`, nunca armado con la fuente.
-- Logo verde o carbón sobre arena, logo arena o terracota sobre carbón, logo terracota sobre verde.
+- Escribí PASTO en mayúsculas en texto corrido; la línea de producto es Meal Prep. El logo PASTO | Meal Prep se usa siempre desde `design/assets/logos/`, nunca armado con la fuente.
+- Versión clara sobre crema; versión `-oscuro` sobre `noche-900`, `verde` o `bordo`.
 - Fuente display (Gabriel Weiss) solo en titulares de 32px o más, con interletrado 0. No tiene ñ, í, Í ni Ñ: para esos textos usá `heading`.
 - Todo lo demás en Hanken Grotesk. Rótulos en MAYÚSCULAS con tracking amplio (`label`).
-- Terracota es un acento, no un color de texto sobre arena. Texto sobre arena en `ink` o `verde`.
-- Un solo botón `primary` por vista. No hay botón terracota.
+- Mostaza es un acento de relleno, no un color de texto sobre crema. Para bordes, íconos y texto de acento usá `accent-ink`. Texto sobre mostaza y celeste en `on-accent` / `on-cold` (bordó).
+- Celeste significa frío y conservación (freezer).
+- Un solo botón `primary` por vista. No hay botón mostaza.
 - Esquinas redondeadas (`radius-md`, `radius-lg`, `radius-pill`), nada en ángulo recto.
 - Sin sombras ni degradés: la profundidad viene de bloques planos de color.
+- Las tipografías de la nueva marca (Obviously y Sofia Pro Narrow) todavía no están integradas: se mantienen Gabriel Weiss y Hanken Grotesk hasta tener las licencias.
 - Sin emojis. Textos en español rioplatense.
 - Foco visible: anillo de 2px con `var(--focus-ring)`.
 - El estado de un pedido se marca con punto y rótulo, nunca solo con color.

@@ -1,6 +1,6 @@
 /* PASTO — tokens.css
    Generado a partir de tokens.json. No lo edites a mano: cambiá tokens.json y volvé a generarlo.
-   Temas: Arena (positivo, por defecto) y Carbón (negativo).
+   Temas: claro (id "arena", por defecto) y oscuro (id "carbon"). Los ids se conservan por compatibilidad.
    - Automático: sigue prefers-color-scheme.
    - Manual: <html data-theme="arena"> o <html data-theme="carbon">. */
 
@@ -8,24 +8,29 @@
 @font-face { font-family: "Hanken Grotesk"; src: url("../fonts/HankenGrotesk-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 
 :root {
-  --carbon: #272b29;
-  --verde: #2c5e4a;
-  --terracota: #bc7139;
-  --arena: #d6d2c8;
-  --cafe: #755741;
-  --cobre: #996439;
-  --bosque-900: #323f3a;
-  --bosque-800: #344c43;
+  --tinta: #272b29;
+  --bordo: #572121;
+  --mostaza: #e3b605;
+  --celeste: #b7d9ff;
+  --crema: #f3eee3;
+  --verde: #2d5e49;
+  --tinta-suave: #5e564a;
+  --verde-800: #234a39;
+  --noche-900: #1b2822;
+  --noche-800: #243630;
   --surface-brand: var(--verde);
-  --accent: var(--terracota);
-  --on-brand: var(--arena);
-  --on-accent: var(--carbon);
-  --surface: var(--arena);
-  --surface-raised: #e9e6df;
-  --ink: var(--carbon);
-  --ink-muted: var(--bosque-800);
-  --border: #c4bfb3;
-  --border-strong: var(--bosque-800);
+  --accent: var(--mostaza);
+  --accent-ink: var(--bordo);
+  --cold: var(--celeste);
+  --on-brand: var(--crema);
+  --on-accent: var(--bordo);
+  --on-cold: var(--bordo);
+  --surface: var(--crema);
+  --surface-raised: #faf7f0;
+  --ink: var(--tinta);
+  --ink-muted: var(--tinta-suave);
+  --border: #ddd6c6;
+  --border-strong: #8a8272;
   --focus-ring: var(--verde);
   --space-1: 4px;
   --space-2: 8px;
@@ -46,26 +51,28 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="arena"]) {
-    --surface: var(--carbon);
-    --surface-raised: var(--bosque-900);
-    --ink: var(--arena);
-    --ink-muted: #ada99f;
-    --border: var(--bosque-800);
-    --border-strong: #8e8a82;
-    --focus-ring: var(--arena);
+    --surface: var(--noche-900);
+    --surface-raised: var(--noche-800);
+    --ink: var(--crema);
+    --ink-muted: #b9b4a6;
+    --border: #34493f;
+    --border-strong: #8aa095;
+    --accent-ink: var(--mostaza);
+    --focus-ring: var(--crema);
     color-scheme: dark;
   }
 }
 
 :root[data-theme="carbon"] {
-  --surface: var(--carbon);
-  --surface-raised: var(--bosque-900);
-  --ink: var(--arena);
-  --ink-muted: #ada99f;
-  --border: var(--bosque-800);
-  --border-strong: #8e8a82;
-  --focus-ring: var(--arena);
-  color-scheme: dark;
+  --surface: var(--noche-900);
+  --surface-raised: var(--noche-800);
+  --ink: var(--crema);
+  --ink-muted: #b9b4a6;
+  --border: #34493f;
+  --border-strong: #8aa095;
+  --accent-ink: var(--mostaza);
+  --focus-ring: var(--crema);
+    color-scheme: dark;
 }
 
 /* Estilos de texto (clases utilitarias opcionales) */

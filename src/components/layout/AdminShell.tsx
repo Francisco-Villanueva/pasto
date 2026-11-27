@@ -75,10 +75,17 @@ export function AdminShell({
     <div className="pasto-admin">
       <aside className="pasto-side">
         <div className="pasto-side__brand">
-          {/* Logo terracota sobre verde, siempre desde los archivos del manual. */}
-          <Link href={`/admin/${sections[0]?.slug ?? "login"}`} aria-label="PASTO, inicio">
+          {/* Logo oscuro sobre verde, siempre desde los archivos del manual. */}
+          <Link
+            href={`/admin/${sections[0]?.slug ?? "login"}`}
+            aria-label="PASTO Meal Prep, inicio"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element -- PNG de marca con ancho automático */}
-            <img className="logo" src="/logos/pasto-logo-terracota.png" alt="PASTO" />
+            <img
+              className="logo"
+              src="/logos/pasto-mealprep-plano-oscuro.png"
+              alt="PASTO Meal Prep"
+            />
           </Link>
         </div>
         <nav className="pasto-sidenav" aria-label="Backoffice">

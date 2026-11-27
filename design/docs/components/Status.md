@@ -2,6 +2,6 @@ Estado marcado con punto y rótulo: `Status`, `OrderStatusBadge`, `PaymentBadge`
 
 - Implementación: `app/src/components/ui/Status.tsx`. Clases: `pasto-dot`, `pasto-status`.
 - El estado nunca se marca solo con color: siempre hay punto y rótulo.
-- Estados de pedido: Preliminar (punto hueco), Pendiente de confirmación (terracota), Confirmado (verde), En producción (cobre), Listo (verde), Entregado (carbón) y Cancelado (hueco). El rótulo usa `Tag`: `brand` para los confirmados, `neutral` para el pendiente y `outline` para el resto.
+- Estados de pedido: Preliminar (punto hueco), Pendiente de confirmación (mostaza), Confirmado (verde), En producción (bordó), Listo (verde), Entregado (tinta) y Cancelado (hueco). El rótulo usa `Tag`: `brand` para los confirmados, `neutral` para el pendiente y `outline` para el resto.
 - Pago: `Pagado` en `brand` y `Pago pendiente` en `outline`.
 - Usá `orderStatusLabel` cuando necesites solo el texto (filtros, mensajes).

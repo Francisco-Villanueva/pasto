@@ -1,6 +1,6 @@
 # Vistas de la app
 
-Pantallas de la tienda y del backoffice de PASTO armadas solo con los tokens y componentes de este sistema (`pasto-btn`, `pasto-tag`, `pasto-card`), en los dos temas, Arena y Carbón. Los precios, nombres y pedidos son datos de ejemplo. Se abren desde `views/index.html`.
+Pantallas de la tienda y del backoffice de PASTO armadas solo con los tokens y componentes de este sistema (`pasto-btn`, `pasto-tag`, `pasto-card`), en los dos temas, claro y oscuro. Los precios, nombres y pedidos son datos de ejemplo. Se abren desde `views/index.html`.
 
 ## Tienda
 
@@ -37,6 +37,6 @@ Pantallas de la tienda y del backoffice de PASTO armadas solo con los tokens y c
 
 ## Cómo se construyen
 
-- Colores, tipografía, espacios y radios salen de `tokens.json`. Los rótulos usan `label` y los titulares `display`, con la onda terracota como subrayado.
-- El logo se usa siempre desde los archivos de `Logos`: verde sobre arena y arena sobre carbón.
+- Colores, tipografía, espacios y radios salen de `tokens.json`. Los rótulos usan `label` y los titulares `display`, con la onda de acento como subrayado.
+- El logo se usa siempre desde los archivos de `Logos`: la versión clara sobre fondos claros y la oscura sobre fondos oscuros o verdes.
 - Los titulares display evitan ñ, í e Í, que la fuente no tiene.

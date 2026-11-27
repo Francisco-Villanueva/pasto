@@ -20,7 +20,7 @@ const REVIEW_BELOW = 3.5;
 
 const score = (value: number | null) => (value === null ? "-" : value.toFixed(1).replace(".", ","));
 
-const PORTION_TONE = { MUY_CHICA: "cobre", ADECUADA: "verde", MUY_GRANDE: "terracota" } as const;
+const PORTION_TONE = { MUY_CHICA: "bordo", ADECUADA: "verde", MUY_GRANDE: "mostaza" } as const;
 
 function Stars({ value }: { value: number | null }) {
   const rounded = value === null ? 0 : Math.round(value);

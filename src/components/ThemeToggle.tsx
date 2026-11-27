@@ -35,7 +35,7 @@ export function ThemeToggle({ iconOnly = false }: { iconOnly?: boolean }) {
     }
   }
 
-  const label = theme === "carbon" ? "Tema Arena" : "Tema Carbón";
+  const label = theme === "carbon" ? "Tema claro" : "Tema oscuro";
   if (iconOnly) {
     const Glyph = theme === "carbon" ? Sun : Moon;
     return (

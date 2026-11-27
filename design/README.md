@@ -31,7 +31,7 @@ Todo lo necesario para construir la app de PASTO con su identidad: tokens, fuent
    <Tag tone="brand">Nuevo</Tag>
    ```
 3. Para cambiar de tema a mano: `document.documentElement.dataset.theme = "carbon"` (o `"arena"`). Sin eso sigue el tema del sistema.
-4. Para el logo: `<img src="/logos/pasto-logo-verde.png" alt="PASTO" />` copiando `assets/logos` a `public/logos`.
+4. Para el logo: `<img src="/logos/pasto-mealprep-plano.png" alt="PASTO Meal Prep" />` copiando `assets/logos` a `public/logos`.
 
 ## Usarlo con Claude Code
 

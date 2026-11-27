@@ -1,4 +1,4 @@
-/** La onda terracota: subrayado decorativo bajo titulares display, de 3 a 4 crestas. */
+/** La onda de acento: subrayado decorativo bajo titulares display, de 3 a 4 crestas. */
 export function Wave({ color = "var(--accent)", width = 120 }: { color?: string; width?: number }) {
   return (
     <svg width={width} height={(width * 14) / 100} viewBox="0 0 100 14" fill="none" aria-hidden="true">
