@@ -109,7 +109,7 @@
 .pasto-input[aria-invalid="true"],
 .pasto-select[aria-invalid="true"],
 .pasto-textarea[aria-invalid="true"] {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
 }
 
 /* ---- Opción (radio / casilla en tarjeta) ---- */
@@ -231,16 +231,16 @@
   border-radius: 50%;
   background: var(--ink-muted);
 }
-.pasto-dot--terracota {
-  background: var(--terracota);
+.pasto-dot--mostaza {
+  background: var(--mostaza);
 }
-.pasto-dot--cobre {
-  background: var(--cobre);
+.pasto-dot--bordo {
+  background: var(--bordo);
 }
 .pasto-dot--verde {
   background: var(--verde);
 }
-.pasto-dot--carbon {
+.pasto-dot--tinta {
   background: var(--ink);
 }
 .pasto-dot--hollow {
@@ -333,7 +333,7 @@
   color: var(--ink);
 }
 .pasto-modal::backdrop {
-  background: color-mix(in srgb, var(--carbon) 62%, transparent);
+  background: color-mix(in srgb, var(--tinta) 62%, transparent);
 }
 .pasto-modal__body {
   display: flex;
@@ -395,8 +395,8 @@
   font-size: 10px;
   letter-spacing: 0.1em;
 }
-.pasto-plate--cafe {
-  background: var(--cafe);
+.pasto-plate--bordo {
+  background: var(--bordo);
 }
 
 /* ---- Estado vacío / error ---- */
@@ -482,8 +482,8 @@
 }
 
 /* ---- Backoffice: barra lateral ----
-   Bloque verde de marca (logo terracota sobre verde). El menú se agrupa por tarea y los globos
-   terracota marcan dónde hay algo esperando. */
+   Bloque verde de marca (logo claro sobre verde). El menú se agrupa por tarea y los globos
+   mostaza marcan dónde hay algo esperando. */
 .pasto-admin {
   display: grid;
   grid-template-columns: 256px minmax(0, 1fr);
@@ -545,7 +545,7 @@
   line-height: 20px;
 }
 .pasto-sidenav a:hover {
-  background: rgb(214 210 200 / 0.14);
+  background: rgb(243 238 227 / 0.14);
 }
 .pasto-sidenav a[aria-current="page"] {
   background: var(--on-brand);
@@ -576,7 +576,7 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-3);
-  border-top: 1.5px solid rgb(214 210 200 / 0.25);
+  border-top: 1.5px solid rgb(243 238 227 / 0.25);
   margin-top: var(--space-2);
 }
 .pasto-avatar {
@@ -617,7 +617,7 @@
   cursor: pointer;
 }
 .pasto-iconbtn:hover {
-  background: rgb(214 210 200 / 0.18);
+  background: rgb(243 238 227 / 0.18);
 }
 @media (max-width: 900px) {
   .pasto-admin {
@@ -771,7 +771,7 @@
   border: 2px solid transparent;
 }
 .pasto-task--now {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
 }
 .pasto-task:hover {
   border-color: var(--border-strong);
@@ -994,11 +994,11 @@
   text-align: right;
   font-weight: 700;
 }
-.pasto-bar--terracota {
-  background: var(--terracota);
+.pasto-bar--mostaza {
+  background: var(--mostaza);
 }
-.pasto-bar--cobre {
-  background: var(--cobre);
+.pasto-bar--bordo {
+  background: var(--bordo);
 }
 .pasto-bar--verde {
   background: var(--verde);
@@ -1226,7 +1226,7 @@
 /* ---- Botones sobre bloques verdes (portada y pie) ---- */
 .pasto-btn.pasto-btn--on-brand {
   background: var(--on-brand);
-  color: var(--carbon);
+  color: var(--tinta);
 }
 .pasto-btn.pasto-btn--on-brand:hover {
   background: var(--surface-raised);
@@ -1351,11 +1351,11 @@
     border: 6px solid var(--surface);
     border-radius: var(--radius-pill);
     background: var(--verde);
-    color: var(--arena);
+    color: var(--crema);
     text-decoration: none;
   }
   .pasto-bottomnav__cart[aria-current="page"] {
-    background: var(--bosque-800);
+    background: var(--verde-800);
   }
   .pasto-bottomnav__cart-label {
     font-size: 12px;
@@ -1435,7 +1435,7 @@
   color: var(--on-brand);
 }
 .pasto-chip--attention {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
 }
 .pasto-chip__count {
   min-width: 22px;
@@ -1513,7 +1513,7 @@
   font-weight: 700;
 }
 .pasto-table tr.is-attention td:first-child {
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--accent-ink);
 }
 .pasto-table tbody tr:hover td {
   background: color-mix(in srgb, var(--border) 35%, transparent);
@@ -1539,7 +1539,7 @@
   gap: var(--space-2);
 }
 .pasto-panel--action {
-  border: 2px solid var(--accent);
+  border: 2px solid var(--accent-ink);
 }
 .pasto-stepper {
   display: grid;
@@ -1564,7 +1564,7 @@
   color: var(--ink);
 }
 .pasto-stepper li.is-active {
-  border-top-color: var(--accent);
+  border-top-color: var(--accent-ink);
   color: var(--ink);
   font-weight: 700;
 }
@@ -1585,7 +1585,7 @@
 }
 .pasto-stepper li.is-active .pasto-stepper__dot {
   background: var(--accent);
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
   color: var(--on-accent);
 }
 @media (max-width: 640px) {
@@ -1879,7 +1879,7 @@
   border: 2px solid transparent;
 }
 .pasto-follow.is-late {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
 }
 .pasto-follow__avatar {
   background: var(--surface-brand);
@@ -1920,7 +1920,7 @@
   background: var(--surface-raised);
 }
 .pasto-kpi.is-alert {
-  border: 2px solid var(--accent);
+  border: 2px solid var(--accent-ink);
 }
 .pasto-kpi__num {
   font-size: 36px;
@@ -1945,7 +1945,7 @@
   border: 2px solid transparent;
 }
 .pasto-dish.is-review {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
 }
 .pasto-dish__head {
   display: flex;
@@ -1974,7 +1974,7 @@
   color: var(--border-strong);
 }
 .pasto-stars .is-on {
-  color: var(--accent);
+  color: var(--accent-ink);
   fill: currentColor;
 }
 .pasto-rating {
@@ -2122,7 +2122,7 @@ button.pasto-chip {
   font-weight: 700;
 }
 .pasto-product__warn .pasto-icon {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .pasto-tierprices {
   display: grid;

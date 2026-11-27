@@ -2,5 +2,5 @@ Botón en píldora para la acción de una pantalla: `primary` en `verde` para la
 
 - Markup: `<button class="pasto-btn pasto-btn--primary">Pedir ahora</button>`; agregá `pasto-btn--sm` para la versión chica. Funciona igual sobre `<a>`.
 - El consumidor provee el texto (verbo en infinitivo o imperativo corto, en sentence case) y el handler.
-- Un solo `primary` por vista. No hay botón terracota: el texto sobre terracota no llega a 4.5:1.
+- Un solo `primary` por vista. No hay botón mostaza: es un color de relleno y acento, no de acción.
 - Foco: `focus-ring` sólido de 2px, separado 2px.

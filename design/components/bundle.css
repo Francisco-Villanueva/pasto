@@ -2,7 +2,7 @@
 .pasto-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);padding:var(--space-3) var(--space-6);border-radius:var(--radius-pill);border:2px solid transparent;font-family:var(--font-sans);font-size:16px;line-height:20px;font-weight:700;cursor:pointer;text-decoration:none;transition:background-color .15s ease,border-color .15s ease}
 .pasto-btn:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
 .pasto-btn--primary{background:var(--verde);color:var(--on-brand)}
-.pasto-btn--primary:hover{background:var(--bosque-800)}
+.pasto-btn--primary:hover{background:var(--verde-800)}
 .pasto-btn--secondary{background:transparent;color:var(--ink);border-color:var(--border-strong)}
 .pasto-btn--secondary:hover{background:var(--surface-raised)}
 .pasto-btn--ghost{background:transparent;color:var(--ink);padding-left:var(--space-4);padding-right:var(--space-4)}
@@ -13,6 +13,7 @@
 .pasto-tag{display:inline-flex;align-items:center;gap:var(--space-1);padding:4px var(--space-3);border-radius:var(--radius-pill);font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 .pasto-tag--brand{background:var(--verde);color:var(--on-brand)}
 .pasto-tag--neutral{background:var(--surface-raised);color:var(--ink);box-shadow:inset 0 0 0 1px var(--border)}
+.pasto-tag--frio{background:var(--cold);color:var(--on-cold)}
 .pasto-tag--outline{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--border-strong)}
 
 .pasto-card{display:flex;flex-direction:column;background:var(--surface-raised);color:var(--ink);border-radius:var(--radius-md);overflow:hidden;font-family:var(--font-sans)}

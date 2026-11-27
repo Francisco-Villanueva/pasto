@@ -27,14 +27,14 @@ import {
 import { Compass } from "lucide-react";
 
 const COLORS = [
-  ["carbon", "var(--carbon)"],
+  ["tinta", "var(--tinta)"],
+  ["bordo", "var(--bordo)"],
+  ["mostaza", "var(--mostaza)"],
+  ["celeste", "var(--celeste)"],
+  ["crema", "var(--crema)"],
   ["verde", "var(--verde)"],
-  ["terracota", "var(--terracota)"],
-  ["arena", "var(--arena)"],
-  ["cafe", "var(--cafe)"],
-  ["cobre", "var(--cobre)"],
-  ["bosque-900", "var(--bosque-900)"],
-  ["bosque-800", "var(--bosque-800)"],
+  ["noche-900", "var(--noche-900)"],
+  ["noche-800", "var(--noche-800)"],
 ] as const;
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -90,6 +90,7 @@ export function ComponentsDemo() {
           <Tag tone="brand">Nuevo</Tag>
           <Tag>Neutral</Tag>
           <Tag tone="outline">Outline</Tag>
+          <Tag tone="frio">Congelado</Tag>
         </div>
       </Section>
 

@@ -40,7 +40,11 @@ export function PublicShell({ children, bleed = false }: { children: ReactNode; 
           <div className="stack">
             <span className="pasto-footer__logo">
               {/* eslint-disable-next-line @next/next/no-img-element -- PNG de marca con ancho automático */}
-              <img src="/logos/pasto-logo-terracota.png" alt="PASTO" height={44} />
+              <img
+                src="/logos/pasto-mealprep-sello-mayusculas-oscuro.png"
+                alt="PASTO Meal Prep"
+                height={44}
+              />
             </span>
             <p className="body-sm">
               Viandas, burritos y complementos hechos en cocina propia. Pedidos con entrega los

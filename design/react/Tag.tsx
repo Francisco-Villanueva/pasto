@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from "react";
 
-type Props = HTMLAttributes<HTMLSpanElement> & { tone?: "brand" | "neutral" | "outline" };
+type Props = HTMLAttributes<HTMLSpanElement> & { tone?: "brand" | "neutral" | "outline" | "frio" };
 
 /** Etiqueta no interactiva. Para filtros usá Button con variant="ghost". */
 export function Tag({ tone = "neutral", className, ...rest }: Props) {

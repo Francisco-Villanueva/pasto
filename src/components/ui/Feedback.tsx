@@ -78,7 +78,7 @@ export function EmptyState({ icon, title, children, action }: EmptyProps) {
 
 type PageHeadProps = { label: string; title: string; children?: ReactNode };
 
-/** Rótulo, titular display con la onda terracota y, opcional, una bajada. */
+/** Rótulo, titular display con la onda de acento y, opcional, una bajada. */
 export function PageHead({ label, title, children }: PageHeadProps) {
   return (
     <div className="pasto-pagehead">
@@ -124,14 +124,14 @@ export function Plate({
 }: {
   name: string;
   small?: boolean;
-  tone?: "verde" | "cafe";
+  tone?: "verde" | "bordo";
 }) {
   return (
     <div
       className={cx(
         "pasto-plate",
         small && "pasto-plate--sm",
-        tone === "cafe" && "pasto-plate--cafe",
+        tone === "bordo" && "pasto-plate--bordo",
       )}
       role="img"
       aria-label={name}

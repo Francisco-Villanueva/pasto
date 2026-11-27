@@ -5,11 +5,11 @@ import { formatShortDate } from "@/domain/schedule";
 import { StatusDot, orderStatusLabel } from "@/components/ui";
 
 /** Etapas que se ven en el gráfico: lo que todavía está en marcha. Entregados y cancelados no. */
-const PIPELINE: { status: OrderStatus; tone: "hollow" | "terracota" | "verde" | "cobre" }[] = [
+const PIPELINE: { status: OrderStatus; tone: "hollow" | "mostaza" | "verde" | "bordo" }[] = [
   { status: "PRELIMINAR", tone: "hollow" },
-  { status: "PENDIENTE_CONFIRMACION", tone: "terracota" },
+  { status: "PENDIENTE_CONFIRMACION", tone: "mostaza" },
   { status: "CONFIRMADO", tone: "verde" },
-  { status: "EN_PRODUCCION", tone: "cobre" },
+  { status: "EN_PRODUCCION", tone: "bordo" },
   { status: "LISTO", tone: "verde" },
 ];
 

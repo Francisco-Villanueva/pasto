@@ -6,7 +6,7 @@ test.describe("sistema de diseño", () => {
     await expect(page.getByRole("heading", { name: "Componentes" })).toBeVisible();
 
     const surface = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(surface).toBe("rgb(214, 210, 200)");
+    expect(surface).toBe("rgb(243, 238, 227)");
 
     const fonts = await page.evaluate(async () => {
       await document.fonts.ready;
@@ -18,13 +18,13 @@ test.describe("sistema de diseño", () => {
     expect(fonts).toEqual({ display: true, sans: true });
   });
 
-  test("alterna entre Arena y Carbón y lo recuerda", async ({ page }) => {
+  test("alterna entre claro y oscuro y lo recuerda", async ({ page }) => {
     await page.goto("/sistema");
-    await page.getByRole("button", { name: "Tema Carbón" }).click();
+    await page.getByRole("button", { name: "Tema oscuro" }).click();
 
     await expect(page.locator("html")).toHaveAttribute("data-theme", "carbon");
     const surface = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(surface).toBe("rgb(39, 43, 41)");
+    expect(surface).toBe("rgb(27, 40, 34)");
 
     await page.reload();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "carbon");

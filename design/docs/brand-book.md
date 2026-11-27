@@ -1,40 +1,33 @@
-PASTO es una marca cálida y artesanal: un logotipo trazado a mano, una paleta de verdes profundos, terracota y arena, y aplicaciones sobre textiles, packaging y vajilla. Todo lo que se construya con este sistema tiene que sentirse hecho a mano y tranquilo, no tecnológico.
+PASTO es una marca cálida y artesanal: un logotipo trazado a mano, una paleta de verde, bordó, mostaza, celeste y crema, y el sello Meal Prep que la acompaña. Todo lo que se construya con este sistema tiene que sentirse hecho a mano y tranquilo, no tecnológico.
 
 ## Contenido
 
-- Escribí el nombre siempre como **PASTO**, en mayúsculas, en texto corrido. En gráfica nunca lo compongas con la tipografía: usá el logo (ver Logo).
+- Escribí el nombre siempre como **PASTO**, en mayúsculas, en texto corrido; la línea de producto es **Meal Prep**. En gráfica nunca lo compongas con la tipografía: usá el logo (ver Logo).
 - El manual está en español rioplatense neutro; los rótulos van en MAYÚSCULAS con tracking amplio (estilo `label`), por ejemplo "PALETA PRINCIPAL CORPORATIVA", "TIPOGRAFIAS", "MAQUETAS".
 - Las notas son breves y descriptivas, en minúscula y con comillas tipográficas: “PASTO” en su tipografía sin modificaciones.
 - Sin emojis.
 
 ## Logo
 
-El logotipo es "PASTO" en Gabriel Weiss' Font, con las letras **“AST” modificadas e ilustradas**: el trazo de la A sale en un lazo que envuelve la palabra y cierra en la T. Es un dibujo, no texto: usá siempre los archivos de `assets/logos`, nunca lo reconstruyas con la fuente.
+El logo es **PASTO | Meal Prep**: el wordmark manuscrito de PASTO, un filete vertical y el sello "Meal Prep" en `bordo`. Es un dibujo, no texto: usá siempre los archivos de `assets/logos` (ver `docs/logos.md`), nunca lo reconstruyas con la fuente.
 
-Cuatro variables, positivo y negativo, tal como el manual:
-
-| Fondo | Logo |
-| --- | --- |
-| `carbon` (negativo) | `pasto-logo-arena.png` o `pasto-logo-terracota.png` |
-| `arena` (positivo) | `pasto-logo-carbon.png` o `pasto-logo-verde.png` |
-| `verde` (textiles, botella, tote) | `pasto-logo-terracota.png` |
-| blanco / arena en packaging (bolsa, caja) | `pasto-logo-terracota.png` |
-
-- `pasto-logo-bordado.png` es la versión con textura de bordado: solo para portadas, mockups de textil o piezas que imiten la aplicación real, nunca en UI.
-- El logo puede ir girado 90° cuando la pieza es vertical (tote, etiqueta del bowl).
-- No lo deformes, no le agregues sombras ni contornos, no cambies sus colores fuera de estas cuatro tintas.
+- Cuatro versiones (plano, sello con línea, sello en mayúsculas, sello sin línea), cada una con su variante oscura.
+- Sobre `crema`: versión clara. Sobre `noche-900`, `verde` o `bordo`: versión `-oscuro`.
+- Los dos nombres pesan igual: no uses PASTO sin Meal Prep dentro de la web, salvo en los íconos de la app.
+- No lo deformes, no le agregues sombras ni contornos, no cambies sus colores fuera de estas tintas.
 
 ## Color
 
-**Paleta principal:** `carbon` #272B29 · `verde` #2C5E4A · `terracota` #BC7139 · `arena` #D6D2C8.
-**Paleta complementaria:** `cafe` #755741 · `cobre` #996439 · `terracota` · `arena` (cálidos) y `carbon` · `bosque-900` #323F3A · `bosque-800` #344C43 · `verde` (fríos).
+**Paleta principal:** `bordo` #572121 · `mostaza` #E3B605 · `celeste` #B7D9FF · `crema` #F3EEE3 · `verde` #2D5E49. Más `tinta` #272B29, el color del wordmark, para texto.
+**Derivados (propuesta):** `verde-800` #234A39 (hover del botón primario), `noche-900` #1B2822 y `noche-800` #243630 (fondos del tema oscuro, sacados del verde), `tinta-suave` #5E564A (texto secundario sobre crema).
 
-- El sistema tiene dos temas: **Arena** (positivo, fondo `arena`) y **Carbón** (negativo, fondo `carbon`). Usá los tokens semánticos (`surface`, `ink`, `ink-muted`, `accent`…) en lugar de los crudos, así una pieza funciona en ambos.
-- `verde` es el color que identifica la marca: usalo a sangre en bloques grandes (`surface-brand`) con texto `on-brand`.
-- `terracota` es el color del logo y la onda. Es un acento, no un color de texto: sobre `arena` da 2.5:1, así que el texto sobre arena va en `ink` o `verde`. Como titular display ≥24px sobre `carbon` sí funciona (3.8:1).
-- Los cálidos complementarios (`cafe`, `cobre`) son para detalles y fills, como las correas de cuero de las maquetas; no para texto chico.
-- Combinaciones de texto verificadas: `ink` sobre `surface`/`surface-raised` ≥9.5:1 en ambos temas; `ink-muted` ≥4.6:1; `on-brand` sobre `verde` 4.96:1; `on-accent` sobre `terracota` 3.8:1 (solo ≥19px bold).
-- El logo terracota sobre arena (caja de las maquetas) queda en 2.5:1. Es una decisión del manual y se mantiene; reservalo para piezas grandes.
+- Dos temas: **claro** (por defecto, fondo `crema`) y **oscuro** (fondo `noche-900`). Los ids `arena` y `carbon` de `data-theme` se conservan por compatibilidad. Usá los tokens semánticos (`surface`, `ink`, `ink-muted`, `accent`, `accent-ink`…) y no los crudos, así una pieza funciona en ambos.
+- `verde` es la firma de PASTO: bloques de marca (`surface-brand`) con texto `on-brand` (crema, 6.46:1) y el botón primario.
+- `bordo` es el color de Meal Prep y el texto sobre `mostaza` y `celeste` (6.66:1 y 8.74:1). También es el borde y el ícono de acento en el tema claro (`accent-ink`).
+- `mostaza` es el acento: rellenos, badges, globos y puntos, con `on-accent` (bordo) encima. No es color de texto sobre crema (1.66:1). En el tema oscuro sí funciona como texto y borde (`accent-ink`, 7.98:1).
+- `celeste` significa frío, freezer y conservación: usalo para avisos y etiquetas de viandas congeladas (`Tag tone="frio"`, `--cold`).
+- `crema` es la base: fondo claro y relleno del sello.
+- Combinaciones de texto verificadas: `ink` sobre `surface` 12.4:1 (claro) y 13.2:1 (oscuro); `ink-muted` ≥6.1:1; `on-brand` sobre `verde` 6.46:1.
 
 ## Tipografía
 
@@ -47,15 +40,15 @@ Cuatro variables, positivo y negativo, tal como el manual:
 
 - Esquinas muy redondeadas, como los swatches del manual: `radius-lg` (28px) en bloques de color grandes, `radius-md` (16px) en tarjetas e imágenes, `radius-pill` en botones y etiquetas. Nada en ángulo recto.
 - Espaciado en base 4px: `space-4` dentro de tarjetas, `space-6` de padding, `space-8` entre tarjetas, `space-12` en márgenes de sección.
-- **La onda**: el trazo ondulado terracota que acompaña la tipografía en el manual. Usalo como subrayado decorativo bajo titulares display o como patrón sobre bloques `verde`, en `accent` u `on-brand`, de 3 a 4 crestas, trazo grueso con puntas redondeadas.
-- Sin sombras ni degradés: la profundidad viene de las texturas reales (bordado, tela, papel) y de los bloques planos de color.
+- **La onda**: el trazo ondulado como subrayado decorativo bajo titulares display, en `accent` u `on-brand`, de 3 a 4 crestas, trazo grueso con puntas redondeadas. Se inspira en el borde ondulado del sello de PASTO.
+- Sin sombras ni degradés: la profundidad viene de los bloques planos de color.
 - Foco: anillo sólido `focus-ring` de 2px con 2px de separación.
 
 ## Imágenes
 
-- Fotografía de producto y aplicaciones reales sobre fondos neutros cálidos (arena, beige, gris piedra), luz suave natural y sombras largas y blandas. Ver `assets/imagery/pasto-maquetas.jpg`.
-- Las aplicaciones de marca son textiles y objetos en `verde` con logo `terracota` (delantal, gorra, tote, botella) y packaging blanco o arena con logo `terracota` (bolsa, caja).
-- La portada usa una textura de tela verde oscura con el logo bordado (`pasto-portada-textura.jpg`).
+- Fotografía de producto y aplicaciones reales sobre fondos neutros cálidos (crema, beige, gris piedra), luz suave natural y sombras largas y blandas. Ver `assets/imagery/pasto-maquetas.jpg`.
+- Las aplicaciones de marca son textiles y objetos en `verde` con el logo claro (delantal, gorra, tote, botella) y packaging crema con el logo PASTO | Meal Prep (bolsa, caja). Las fotos actuales de `assets/imagery` muestran la marca anterior y hay que reemplazarlas.
+- La portada usa una textura de tela verde oscura (`pasto-portada-textura.jpg`; el logo bordado es de la marca anterior).
 
 ## Iconografía
 

@@ -3,7 +3,7 @@ import { Tag } from "@design/react";
 import type { OrderStatus } from "@/domain/orders";
 import { cx } from "./cx";
 
-type DotTone = "terracota" | "cobre" | "verde" | "carbon" | "hollow" | "muted";
+type DotTone = "mostaza" | "bordo" | "verde" | "tinta" | "hollow" | "muted";
 
 export function StatusDot({ tone = "muted" }: { tone?: DotTone }) {
   return (
@@ -37,11 +37,11 @@ const ORDER_STATUS: Record<
   { label: string; tone: DotTone; tag: "brand" | "neutral" | "outline" }
 > = {
   PRELIMINAR: { label: "Preliminar", tone: "hollow", tag: "outline" },
-  PENDIENTE_CONFIRMACION: { label: "Pendiente de confirmación", tone: "terracota", tag: "neutral" },
+  PENDIENTE_CONFIRMACION: { label: "Pendiente de confirmación", tone: "mostaza", tag: "neutral" },
   CONFIRMADO: { label: "Confirmado", tone: "verde", tag: "brand" },
-  EN_PRODUCCION: { label: "En producción", tone: "cobre", tag: "brand" },
+  EN_PRODUCCION: { label: "En producción", tone: "bordo", tag: "brand" },
   LISTO: { label: "Listo", tone: "verde", tag: "brand" },
-  ENTREGADO: { label: "Entregado", tone: "carbon", tag: "outline" },
+  ENTREGADO: { label: "Entregado", tone: "tinta", tag: "outline" },
   CANCELADO: { label: "Cancelado", tone: "hollow", tag: "outline" },
 };
 

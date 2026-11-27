@@ -113,7 +113,7 @@ export default async function Home() {
           <div className="wrap ld-hero__grid">
             <div className="ld-hero__copy">
               <h1 className="display-xl">Tu semana resuelta, cocinada en casa</h1>
-              <Wave color="var(--terracota)" width={132} />
+              <Wave color="var(--accent)" width={132} />
               <p className="ld-lead">
                 Viandas y burritos hechos en la cocina de PASTO. Armás tu pack, elegís entrega o
                 retiro y confirmás por WhatsApp.

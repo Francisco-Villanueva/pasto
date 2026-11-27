@@ -7,7 +7,7 @@ export default function SistemaPage() {
   return (
     <PublicShell>
       <PageHead label="Verificación" title="Componentes">
-        Página interna para comprobar tokens, fuentes y componentes en los temas Arena y Carbón.{" "}
+        Página interna para comprobar tokens, fuentes y componentes en los temas claro y oscuro.{" "}
         <Link href="/sistema/pantallas">Ver pantallas de referencia</Link>.
       </PageHead>
       <ComponentsDemo />
