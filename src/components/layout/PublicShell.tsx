@@ -21,7 +21,7 @@ export function PublicShell({ children, bleed = false }: { children: ReactNode; 
     <>
       <header className={bleed ? "v-header v-header--home" : "v-header"}>
         <div className="wrap row-between">
-          <Logo />
+          <Logo tone="dark" />
           <nav className="pasto-nav" aria-label="Principal">
             {BEFORE_CART.map((item) => (
               <NavLink key={item.href} href={item.href}>

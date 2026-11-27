@@ -147,13 +147,29 @@ main.wrap,
 .landing .wrap {
   padding-inline: max(var(--space-4), env(safe-area-inset-left, 0px));
 }
+/* La cabecera de la tienda es oscura en los dos temas: así el logo con MEAL PREP en mostaza
+   se lee siempre. Adentro se usan los mismos valores que el tema oscuro (carbon). */
 .v-header {
+  --surface: var(--noche-900);
+  --surface-raised: var(--noche-800);
+  --ink: var(--crema);
+  --ink-muted: #b9b4a6;
+  --border: #34493f;
+  --border-strong: #8aa095;
+  --accent-ink: var(--mostaza);
+  --focus-ring: var(--crema);
+  color-scheme: dark;
   position: sticky;
   top: 0;
   z-index: 20;
   padding-block: var(--space-3);
   background: var(--surface);
+  color: var(--ink);
   border-bottom: 1.5px solid var(--border);
+}
+.theme-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-ink);
 }
 .logo {
   height: 36px;
@@ -237,11 +253,5 @@ main.wrap,
   }
   .v-header--home .pasto-nav {
     display: none;
-  }
-  .v-header--home .logo-light {
-    display: none !important;
-  }
-  .v-header--home .logo-dark {
-    display: block !important;
   }
 }

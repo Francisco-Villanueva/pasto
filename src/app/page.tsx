@@ -110,7 +110,9 @@ export default async function Home() {
         <section className="ld-hero">
           <div className="wrap ld-hero__grid">
             <div className="ld-hero__copy">
-              <h1 className="display-xl">Tu semana resuelta, cocinada en casa</h1>
+              <h1 className="display-xl">
+                Tu semana resuelta, <span className="ld-accent">cocinada en casa</span>
+              </h1>
               <Wave color="var(--accent)" width={132} />
               <p className="ld-lead">
                 Viandas y burritos hechos en la cocina de PASTO. Armás tu pack, elegís entrega o
@@ -187,7 +189,7 @@ export default async function Home() {
             <div className="wrap ld-macros">
               <div className="ld-macros__copy">
                 <h2 id="macros-title" className="display-lg">
-                  Cada plato con sus macros a la vista
+                  Cada plato con sus <span className="ld-accent">macros a la vista</span>
                 </h2>
                 <p className="ld-lead">
                   Mirás lo que comés antes de pedir. Cada plato muestra calorías, proteínas,

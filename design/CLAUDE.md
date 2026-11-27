@@ -16,7 +16,9 @@ Esta carpeta es la fuente de verdad visual de la app. Antes de construir o cambi
 - Todo lo demás en Hanken Grotesk. Rótulos en MAYÚSCULAS con tracking amplio (`label`).
 - Mostaza es un acento de relleno, no un color de texto sobre crema. Para bordes, íconos y texto de acento usá `accent-ink`. Texto sobre mostaza y celeste en `on-accent` / `on-cold` (bordó).
 - Celeste significa frío y conservación (freezer).
-- Un solo botón `primary` por vista. No hay botón mostaza.
+- Un solo botón `primary` por vista. No hay botón mostaza como variante; el hover de los botones sí se rellena de mostaza con texto `on-accent`.
+- La cabecera de la tienda es oscura en los dos temas y usa siempre el logo `-oscuro` (MEAL PREP en mostaza). Enlaces del menú en hover: `accent-ink`.
+- Detalles en mostaza: sobre bloques oscuros, una palabra del titular (`.ld-accent`); sobre cualquier fondo, precios y enlaces de acción en `accent-ink`.
 - Esquinas redondeadas (`radius-md`, `radius-lg`, `radius-pill`), nada en ángulo recto.
 - Sin sombras ni degradés: la profundidad viene de bloques planos de color. Única excepción: en el celular, el video de la portada se funde con la tela con una máscara degradada.
 - Obviously Narrow ya está integrada para titulares. Sofia Pro Narrow todavía no: el texto sigue en Hanken Grotesk hasta tener la licencia.

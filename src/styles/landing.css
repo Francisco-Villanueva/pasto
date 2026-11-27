@@ -213,16 +213,30 @@
   line-height: 30px;
   font-weight: 700;
 }
+.ld-pack__price .num {
+  color: var(--accent-ink);
+}
 .ld-pack__go {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   font-weight: 700;
   font-size: 14px;
-  transition: gap var(--dur-base) var(--ease-out);
+  transition:
+    gap var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
 }
 .ld-pack:hover .ld-pack__go {
   gap: var(--space-3);
+  color: var(--accent-ink);
+}
+.ld-pack:hover h3 {
+  color: var(--accent-ink);
+}
+
+/* Palabra destacada de un titular sobre bloque oscuro (portada, macros): mostaza. */
+.ld-accent {
+  color: var(--accent);
 }
 
 /* ---- Bloque oscuro: macros ---- */
@@ -356,7 +370,8 @@
   place-items: center;
   width: 48px;
   height: 48px;
-  border: 2px solid var(--ink);
+  background: var(--accent);
+  color: var(--on-accent);
   border-radius: var(--radius-pill);
   font-size: 20px;
   font-weight: 700;
@@ -432,7 +447,15 @@
   font-size: 28px;
   line-height: 24px;
   font-weight: 500;
+  color: var(--accent-ink);
   transition: transform var(--dur-base) var(--ease-out);
+}
+.ld-faq__list summary {
+  cursor: pointer;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.ld-faq__list summary:hover {
+  color: var(--accent-ink);
 }
 .ld-faq__list details[open] summary::after {
   transform: rotate(45deg);
@@ -461,6 +484,10 @@
     background: var(--crema);
     color: var(--tinta);
   }
+}
+.landing .ld-close .pasto-btn--primary:hover {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 .ld-section:last-child {
   padding-bottom: 0;
